@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  lag_ms: 1.5
+  src_addr: MyString
+  dst_addr: MyString
+  src_city: MyString
+  dst_city: MyString
+  distance_km: 1.5
+
+two:
+  lag_ms: 1.5
+  src_addr: MyString
+  dst_addr: MyString
+  src_city: MyString
+  dst_city: MyString
+  distance_km: 1.5

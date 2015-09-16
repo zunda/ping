@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Lag ms:</strong>
+  <%= @ping_result.lag_ms %>
+</p>
+
+<p>
+  <strong>Src addr:</strong>
+  <%= @ping_result.src_addr %>
+</p>
+
+<p>
+  <strong>Dst addr:</strong>
+  <%= @ping_result.dst_addr %>
+</p>
+
+<p>
+  <strong>Src city:</strong>
+  <%= @ping_result.src_city %>
+</p>
+
+<p>
+  <strong>Dst city:</strong>
+  <%= @ping_result.dst_city %>
+</p>
+
+<p>
+  <strong>Distance km:</strong>
+  <%= @ping_result.distance_km %>
+</p>
+
+<%= link_to 'Edit', edit_ping_result_path(@ping_result) %> |
+<%= link_to 'Back', ping_results_path %>

@@ -1,0 +1,41 @@
+<%= form_for(@ping_result) do |f| %>
+  <% if @ping_result.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@ping_result.errors.count, "error") %> prohibited this ping_result from being saved:</h2>
+
+      <ul>
+      <% @ping_result.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :lag_ms %><br>
+    <%= f.text_field :lag_ms %>
+  </div>
+  <div class="field">
+    <%= f.label :src_addr %><br>
+    <%= f.text_field :src_addr %>
+  </div>
+  <div class="field">
+    <%= f.label :dst_addr %><br>
+    <%= f.text_field :dst_addr %>
+  </div>
+  <div class="field">
+    <%= f.label :src_city %><br>
+    <%= f.text_field :src_city %>
+  </div>
+  <div class="field">
+    <%= f.label :dst_city %><br>
+    <%= f.text_field :dst_city %>
+  </div>
+  <div class="field">
+    <%= f.label :distance_km %><br>
+    <%= f.text_field :distance_km %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
