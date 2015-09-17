@@ -3,7 +3,6 @@ require 'test_helper'
 class PingResultTest < ActiveSupport::TestCase
   ValidPingResult = {
     src_addr: "192.168.1.1",
-    dst_addr: "192.168.1.2",
     lag_ms: 123.45,
   }
 
@@ -25,10 +24,5 @@ class PingResultTest < ActiveSupport::TestCase
   test "src_addr should not be empty" do
     ping_result = PingResult.new(ValidPingResult.merge(src_addr: nil))
     assert_not ping_result.save, "Saved the ping_result without a valid src"
-  end
-
-  test "dst_addr should not be empty" do
-    ping_result = PingResult.new(ValidPingResult.merge(dst_addr: nil))
-    assert_not ping_result.save, "Saved the ping_result without a valid dst"
   end
 end

@@ -18,7 +18,7 @@ class PingResultsControllerTest < ActionController::TestCase
 
   test "should create ping_result" do
     assert_difference('PingResult.count') do
-      post :create, ping_result: { distance_km: @ping_result.distance_km, dst_addr: @ping_result.dst_addr, dst_city: @ping_result.dst_city, lag_ms: @ping_result.lag_ms, src_addr: @ping_result.src_addr, src_city: @ping_result.src_city }
+      post :create, ping_result: { lag_ms: @ping_result.lag_ms, src_addr: @ping_result.src_addr }
     end
 
     assert_redirected_to ping_result_path(assigns(:ping_result))
@@ -35,7 +35,7 @@ class PingResultsControllerTest < ActionController::TestCase
   end
 
   test "should update ping_result" do
-    patch :update, id: @ping_result, ping_result: { distance_km: @ping_result.distance_km, dst_addr: @ping_result.dst_addr, dst_city: @ping_result.dst_city, lag_ms: @ping_result.lag_ms, src_addr: @ping_result.src_addr, src_city: @ping_result.src_city }
+    patch :update, id: @ping_result, ping_result: { lag_ms: @ping_result.lag_ms }
     assert_redirected_to ping_result_path(assigns(:ping_result))
   end
 
