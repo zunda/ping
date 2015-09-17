@@ -25,4 +25,19 @@ class PingResultTest < ActiveSupport::TestCase
     ping_result = PingResult.new(ValidPingResult.merge(src_addr: nil))
     assert_not ping_result.save, "Saved the ping_result without a valid src"
   end
+
+  test "src_addr should not be an invalid IP address" do
+    ping_result = PingResult.new(ValidPingResult.merge(src_addr: '1'))
+    assert_not ping_result.save, "Saved the ping_result without a valid src"
+  end
+
+  test "src_addr can be a valid IPv4 address" do
+    ping_result = PingResult.new(ValidPingResult.merge(src_addr: '8.8.8.8'))
+    assert ping_result.save, "Did not saved the ping_result with a valid src"
+  end
+
+  test "src_addr can be a valid IPv6 address" do
+    ping_result = PingResult.new(ValidPingResult.merge(src_addr: '3ffe:505:2::1'))
+    assert ping_result.save, "Did not saved the ping_result with a valid src"
+  end
 end

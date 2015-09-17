@@ -2,8 +2,8 @@
 
 one:
   lag_ms: 1.5
-  src_addr: MyString
+  src_addr: '1.2.3.4'
 
 two:
-  lag_ms: 1.5
-  src_addr: MyString
+  lag_ms: 2.5
+  src_addr: '2.3.4.5'
