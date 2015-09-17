@@ -3,6 +3,8 @@ require 'test_helper'
 class PingResultsControllerTest < ActionController::TestCase
   setup do
     @ping_result = ping_results(:one)
+    @request.headers['X-Forwarded-For'] = nil
+    @request.headers['REMOTE_ADDR'] = nil
   end
 
   test "should get index" do
@@ -16,12 +18,33 @@ class PingResultsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should create ping_result" do
+  test "should not create ping_result without proper HTTP header" do
+    assert_no_difference('PingResult.count') do
+      post :create, ping_result: { lag_ms: @ping_result.lag_ms, src_addr: @ping_result.src_addr }
+    end
+  end
+
+  test "should create ping_result with X-Forwarded-For" do
+    ipaddr = '8.9.10.11'
+    @request.headers['X-Forwarded-For'] = ipaddr
+    @request.headers['REMOTE_ADDR'] = '192.168.1.1'
     assert_difference('PingResult.count') do
       post :create, ping_result: { lag_ms: @ping_result.lag_ms, src_addr: @ping_result.src_addr }
     end
 
     assert_redirected_to ping_result_path(assigns(:ping_result))
+    assert_equal ipaddr, PingResult.last.src_addr
+  end
+
+  test "should create ping_result with REMOTE_ADDR" do
+    ipaddr = '9.10.11.12'
+    @request.headers['REMOTE_ADDR'] = ipaddr
+    assert_difference('PingResult.count') do
+      post :create, ping_result: { lag_ms: @ping_result.lag_ms, src_addr: @ping_result.src_addr }
+    end
+
+    assert_redirected_to ping_result_path(assigns(:ping_result))
+    assert_equal ipaddr, PingResult.last.src_addr
   end
 
   test "should show ping_result" do

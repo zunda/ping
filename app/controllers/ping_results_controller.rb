@@ -15,6 +15,7 @@ class PingResultsController < ApplicationController
   # GET /ping_results/new
   def new
     @ping_result = PingResult.new
+    @ping_result.src_addr = src_addr_on_header
   end
 
   # GET /ping_results/1/edit
@@ -25,6 +26,7 @@ class PingResultsController < ApplicationController
   # POST /ping_results.json
   def create
     @ping_result = PingResult.new(ping_result_params)
+    @ping_result.src_addr = src_addr_on_header
 
     respond_to do |format|
       if @ping_result.save
@@ -62,6 +64,11 @@ class PingResultsController < ApplicationController
   end
 
   private
+    # Obtain IP address from http request header
+    def src_addr_on_header
+       request.headers['X-Forwarded-For'] || request.headers['REMOTE_ADDR']
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_ping_result
       @ping_result = PingResult.find(params[:id])
@@ -69,6 +76,6 @@ class PingResultsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def ping_result_params
-      params.require(:ping_result).permit(:lag_ms, :src_addr)
+      params.require(:ping_result).permit(:lag_ms)
     end
 end
