@@ -1,5 +1,5 @@
 // http://stackoverflow.com/a/573784
-function getPing(callback) {
+function getPing(target, callback) {
   var start;
   var client = getClient(); // xmlhttprequest object
   client.onreadystatechange = function() {
@@ -11,7 +11,7 @@ function getPing(callback) {
   }
 
   start = new Date();
-  client.open("HEAD", "ping.js"); //static file
+  client.open("HEAD", target);
   client.send();
 }
 
