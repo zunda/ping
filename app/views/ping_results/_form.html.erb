@@ -1,3 +1,8 @@
+<%= javascript_include_tag "ping" %>
+<%= javascript_tag do %>
+	$("#ping").click(function() {getPing();});
+<% end %>
+
 <%= form_for(@ping_result) do |f| %>
   <% if @ping_result.errors.any? %>
     <div id="error_explanation">
@@ -14,6 +19,7 @@
   <div class="field">
     <%= f.label :lag_ms %><br>
     <%= f.text_field :lag_ms %>
+    <a href="#" id="ping">Ping!</a>
   </div>
   <div class="field">
     <%= f.label :src_addr %><br>
