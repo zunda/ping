@@ -1,6 +1,9 @@
 <%= javascript_include_tag "ping" %>
 <%= javascript_tag do %>
-	$("#ping").click(function() {getPing("<%= path_to_javascript "ping" %>", function(lag){alert(lag + " ms");});});
+	$("#ping").click(function() {
+		getPing("<%= path_to_javascript "ping" %>", function(lag){
+			$("#ping_result_lag_ms").val(lag);
+		});});
 <% end %>
 
 <%= form_for(@ping_result) do |f| %>
