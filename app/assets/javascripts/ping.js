@@ -1,11 +1,12 @@
 // http://stackoverflow.com/a/573784
-function getPing() {
+function getPing(callback) {
   var start;
   var client = getClient(); // xmlhttprequest object
   client.onreadystatechange = function() {
     if (client.readyState >= 2) { // request received
-      pingDone(start); //handle ping
+      lag_ms = pingDone(start); //handle ping
       client.onreadystatechange = null; //remove handler
+      callback(lag_ms);
     } 
   }
 
@@ -16,8 +17,7 @@ function getPing() {
 
 function pingDone(start) {
   done = new Date();
-  ms = done.valueOf() - start.valueOf();
-  alert(ms + " ms");
+  return done.valueOf() - start.valueOf();
 }
 
 function getClient() {
