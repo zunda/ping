@@ -11,7 +11,7 @@ function getPing(target, callback) {
   }
 
   start = new Date();
-  client.open("HEAD", target);
+  client.open("HEAD", target + "?" + start.valueOf());
   client.send();
 }
 
