@@ -1,10 +1,13 @@
+var Pinger = {
+};
+
 // http://stackoverflow.com/a/573784
-function getPing(target, callback) {
+Pinger.getPing = function(target, callback) {
   var start;
-  var client = getClient(); // xmlhttprequest object
+  var client = Pinger.getClient(); // xmlhttprequest object
   client.onreadystatechange = function() {
     if (client.readyState >= 2) { // request received
-      lag_ms = pingDone(start); //handle ping
+      lag_ms = Pinger.pingDone(start); //handle ping
       client.onreadystatechange = null; //remove handler
       callback(lag_ms);
     } 
@@ -15,12 +18,12 @@ function getPing(target, callback) {
   client.send();
 }
 
-function pingDone(start) {
+Pinger.pingDone = function(start) {
   done = new Date();
   return done.valueOf() - start.valueOf();
 }
 
-function getClient() {
+Pinger.getClient = function() {
   if (window.XMLHttpRequest)
     return new XMLHttpRequest();
 
