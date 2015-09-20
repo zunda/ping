@@ -1,4 +1,5 @@
 var Pinger = {
+  seq: 0
 };
 
 // http://stackoverflow.com/a/573784
@@ -13,8 +14,9 @@ Pinger.getPing = function(target, callback) {
     } 
   }
 
+  Pinger.seq += 1;
   start = new Date();
-  client.open("HEAD", target + "?" + start.valueOf());
+  client.open("HEAD", target + "?" + Pinger.seq);
   client.send();
 }
 
