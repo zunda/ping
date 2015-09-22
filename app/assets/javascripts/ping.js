@@ -8,7 +8,7 @@ Pinger.ping = function(target, callback) {
   var client = Pinger.client(); // xmlhttprequest object
   client.onreadystatechange = function() {
     if (client.readyState >= 2) { // request received
-      lag_ms = new Date().valueOf() - start.valueOf();
+      var lag_ms = new Date().valueOf() - start.valueOf();
       client.onreadystatechange = null; //remove handler
       callback(lag_ms);
     } 
