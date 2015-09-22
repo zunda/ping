@@ -1,5 +1,4 @@
 var Pinger = {
-  seq: 0,
   repeat: 5,  // must be an odd number
   interval: 500,
   results: []
@@ -17,9 +16,10 @@ Pinger.ping = function(target, callback) {
     } 
   }
 
-  Pinger.seq += 1;
+  var target_ts = target + "?" + new Date().valueOf();  // to avoid cache
+
   start = new Date();
-  client.open("HEAD", target + "?" + Pinger.seq);
+  client.open("HEAD", target_ts);
   client.send();
 }
 
