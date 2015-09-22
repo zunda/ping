@@ -1,9 +1,12 @@
 <%= javascript_include_tag "ping" %>
 <%= javascript_tag do %>
-	$("#ping").click(function() {
-		Pinger.ping("<%= path_to_javascript "ping" %>", function(lag){
-			$("#ping_result_lag_ms").val(lag);
-		});});
+  $("#ping").click(function() {
+    $("#ping_result_lag_ms").val("");
+    $("#ping_result_ping_progress").html("");
+    Pinger.measure("<%= path_to_javascript "ping" %>",
+      function(lag){$("#ping_result_ping_progress").append(" " + lag);},
+      function(lag){$("#ping_result_lag_ms").val(lag);}
+    )});
 <% end %>
 
 <%= form_for(@ping_result) do |f| %>
@@ -23,6 +26,7 @@
     <%= f.label :lag_ms %><br>
     <%= f.text_field :lag_ms %>
     <a href="#" id="ping">Ping!</a>
+    <span id="ping_result_ping_progress"></span>
   </div>
   <div class="field">
     <%= f.label :src_addr %><br>

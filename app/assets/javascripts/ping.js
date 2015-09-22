@@ -1,5 +1,8 @@
 var Pinger = {
-  seq: 0
+  seq: 0,
+  repeat: 5,  // must be an odd number
+  interval: 500,
+  results: []
 };
 
 // http://stackoverflow.com/a/573784
@@ -28,4 +31,21 @@ Pinger.client = function() {
     return new ActiveXObject('MSXML2.XMLHTTP.3.0');
 
   throw("No XMLHttpRequest Object Available.");
+}
+
+Pinger.measure = function(target, progress_callback, result_callback) {
+  Pinger.ping(target, function(lag_ms){
+    Pinger.results.push(lag_ms);
+    progress_callback(lag_ms);
+    if (Pinger.results.length < Pinger.repeat) {
+      setTimeout(
+        function(){Pinger.measure(target, progress_callback, result_callback)},
+        Pinger.interval
+      );
+    } else {
+      Pinger.results.sort();
+      result_callback(Pinger.results[(Pinger.repeat - 1)/ 2]);
+      Pinger.results = [];
+    }
+  });
 }
