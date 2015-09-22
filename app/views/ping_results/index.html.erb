@@ -7,6 +7,7 @@
     <tr>
       <th>Lag ms</th>
       <th>Src addr</th>
+      <th>User agent</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -16,6 +17,7 @@
       <tr>
         <td><%= ping_result.lag_ms %></td>
         <td><%= ping_result.src_addr %></td>
+        <td><%= ping_result.user_agent %></td>
         <td><%= link_to 'Show', ping_result %></td>
         <td><%= link_to 'Edit', edit_ping_result_path(ping_result) %></td>
         <td><%= link_to 'Destroy', ping_result, method: :delete, data: { confirm: 'Are you sure?' } %></td>

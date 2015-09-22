@@ -10,5 +10,10 @@
   <%= @ping_result.src_addr %>
 </p>
 
+<p>
+  <strong>User agent:</strong>
+  <%= @ping_result.user_agent %>
+</p>
+
 <%= link_to 'Edit', edit_ping_result_path(@ping_result) %> |
 <%= link_to 'Back', ping_results_path %>

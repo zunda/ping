@@ -47,6 +47,20 @@ class PingResultsControllerTest < ActionController::TestCase
     assert_equal ipaddr, PingResult.last.src_addr
   end
 
+  test "should record User-Agent if supplied" do
+    user_agent = "Test browser"
+    @request.user_agent = user_agent
+    ipaddr = '9.10.11.12'
+    @request.headers['REMOTE_ADDR'] = ipaddr
+
+    assert_difference('PingResult.count') do
+      post :create, ping_result: { lag_ms: @ping_result.lag_ms, src_addr: @ping_result.src_addr, user_agent: @ping_result.user_agent }
+    end
+
+    assert_redirected_to ping_result_path(assigns(:ping_result))
+    assert_equal user_agent, PingResult.last.user_agent
+  end
+
   test "should show ping_result" do
     get :show, id: @ping_result
     assert_response :success

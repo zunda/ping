@@ -11,13 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150917040812) do
+ActiveRecord::Schema.define(version: 20150922052013) do
 
   create_table "ping_results", force: :cascade do |t|
     t.float    "lag_ms"
     t.string   "src_addr"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "user_agent"
   end
 
 end

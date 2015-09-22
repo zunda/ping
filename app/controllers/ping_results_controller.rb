@@ -27,6 +27,7 @@ class PingResultsController < ApplicationController
   def create
     @ping_result = PingResult.new(ping_result_params)
     @ping_result.src_addr = src_addr_on_header
+    @ping_result.user_agent = user_agent_on_header
 
     respond_to do |format|
       if @ping_result.save
@@ -67,6 +68,11 @@ class PingResultsController < ApplicationController
     # Obtain IP address from http request header
     def src_addr_on_header
        request.headers['X-Forwarded-For'] || request.headers['REMOTE_ADDR']
+    end
+
+    # Obtain User Agent from http request header
+    def user_agent_on_header
+       request.headers['HTTP_USER_AGENT']
     end
 
     # Use callbacks to share common setup or constraints between actions.
