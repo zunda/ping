@@ -11,7 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150922052013) do
+ActiveRecord::Schema.define(version: 20151024030550) do
+
+  create_table "locations", force: :cascade do |t|
+    t.string   "host"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.string   "city"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "ping_results", force: :cascade do |t|
     t.float    "lag_ms"
