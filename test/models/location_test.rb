@@ -20,6 +20,12 @@ class GeocoderStub
         {"types"=>["locality", "political"], "geometry"=>{"location"=>{"lat"=>48.85341, "lng"=>2.3488}, "location_type"=>"APPROXIMATE", "viewport"=>{"southwest"=>{"lat"=>48.796009, "lng"=>2.216784}, "northeast"=>{"lat"=>48.921822, "lng"=>2.485605}}}, "address_components"=>[{"short_name"=>"Paris", "types"=>["locality", "political"], "long_name"=>"Paris, FR"}, {"short_name"=>"FR", "types"=>["country", "political"], "long_name"=>"France"}]},
       :error => nil
     },
+    '216.58.216.4' => {
+      :ip_address => true,
+      :data =>
+        {"dma_code"=>"0", "ip"=>"216.58.216.4", "asn"=>"AS15169", "city"=>"Mountain View", "latitude"=>37.4192, "country_code"=>"US", "offset"=>"-7", "country"=>"United States", "region_code"=>"CA", "isp"=>"Google Inc.", "timezone"=>"America/Los_Angeles", "area_code"=>"0", "continent_code"=>"NA", "longitude"=>-122.0574, "region"=>"California", "postal_code"=>"94043", "country_code3"=>"USA"},
+      :error => nil
+    },
   }
 
   # result to be used in app/models/location.rb
@@ -42,8 +48,19 @@ class GeocoderStub
   end
 end
 
+class ResolvStub	# Stubs Resolv
+  PreparedResponses = {
+    'www.google.com' => '216.58.216.4'
+  }
+
+  def self::getaddress(ipaddress)
+    return PreparedResponses[ipaddress]
+  end
+end
+
 class LocationTest < ActiveSupport::TestCase
   Location::geocoder = GeocoderStub
+  Location::resolver = ResolvStub
 
   test "looking up an IP address should return a valid location" do
     l = Location.new(:host => '8.8.8.8')
@@ -53,8 +70,11 @@ class LocationTest < ActiveSupport::TestCase
     assert l.latitude.is_a?(Float), "latitude #{l.latitude.inspect} is not a float"
   end
 
-  # TODO: this should return a valid location in the future
-  test "looking up FQDN shuold return a nil" do
-    assert_nil Location.new(:host => 'www.google.com').geocode_from_host!
+  test "looking up FQDN shuold return a valid location" do
+    l = Location.new(:host => 'www.google.com')
+    l.geocode_from_host!
+    assert_not_empty l.city
+    assert l.longitude.is_a?(Float), "longitude #{l.longitude.inspect} is not a float"
+    assert l.latitude.is_a?(Float), "latitude #{l.latitude.inspect} is not a float"
   end
 end
