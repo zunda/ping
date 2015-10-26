@@ -1,7 +1,7 @@
 Geocoder.configure(
   # geocoding options
   :timeout        => 5,           # geocoding service timeout (secs)
-  :lookup         => :yandex,     # name of geocoding service (symbol)
+  :lookup         => :dstk,       # name of geocoding service (symbol)
   :ip_lookup      => :telize,
   # :language     => :en,         # ISO-639 language code
   # :use_https    => false,       # use HTTPS for lookup requests? (if supported)
