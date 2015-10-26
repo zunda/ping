@@ -1,6 +1,5 @@
 require 'test_helper'
 
-class GeocoderStubError < RuntimeError; end
 class GeocoderStub
   PreparedResponses = {
     '8.8.8.8' => {
@@ -48,7 +47,7 @@ class GeocoderStub
   end
 end
 
-class ResolvStub	# Stubs Resolv
+class ResolvStub
   PreparedResponses = {
     'www.google.com' => '216.58.216.4'
   }
