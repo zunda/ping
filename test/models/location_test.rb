@@ -35,13 +35,23 @@ class GeocoderStub
     return [nil] if pr[:error]  # Geocoder gem does not raise an error
     def pr.address
       data = self[:data]
-      "#{data['city']}, #{data['region_code']} #{data['postal_code']}, #{data['country']}"
+      if data['city']
+        return "#{data['city']}, #{data['region_code']} #{data['postal_code']}, #{data['country']}"
+      end
+      return nil
+    end
+    def pr.city
+      data = self[:data]
+      if data['address_components']
+        return data['address_components'][0]['long_name']
+      end
+      return nil
     end
     def pr.longitude
-      self[:data]['longitude']
+      self[:data]['longitude'] || self[:data]['geometry']['location']['lng']
     end
     def pr.latitude
-      self[:data]['latitude']
+      self[:data]['latitude'] || self[:data]['geometry']['location']['lat']
     end
     return [pr]
   end
@@ -58,6 +68,7 @@ class ResolvStub
 end
 
 class LocationTest < ActiveSupport::TestCase
+  # Use stubs instead of real external resources
   Location::geocoder = GeocoderStub
   Location::resolver = ResolvStub
 
@@ -72,6 +83,14 @@ class LocationTest < ActiveSupport::TestCase
   test "looking up FQDN shuold return a valid location" do
     l = Location.new(:host => 'www.google.com')
     l.geocode_from_host!
+    assert_not_empty l.city
+    assert l.longitude.is_a?(Float), "longitude #{l.longitude.inspect} is not a float"
+    assert l.latitude.is_a?(Float), "latitude #{l.latitude.inspect} is not a float"
+  end
+
+  test "looking up a city name should return a valid location" do
+    l = Location.new(:city => 'Paris, France')
+    l.geocode_from_city!
     assert_not_empty l.city
     assert l.longitude.is_a?(Float), "longitude #{l.longitude.inspect} is not a float"
     assert l.latitude.is_a?(Float), "latitude #{l.latitude.inspect} is not a float"

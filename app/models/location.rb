@@ -20,7 +20,17 @@ class Location < ActiveRecord::Base
       end
       r = @@geocoder.search(ipaddress, ip_address: true).first
       if r
-        self.city = r.address
+        self.city = r.address || r.city
+        self.latitude = r.latitude
+        self.longitude = r.longitude
+      end
+      return r
+  end
+
+  def geocode_from_city!
+      r = @@geocoder.search(city).first
+      if r
+        self.city = r.address || r.city
         self.latitude = r.latitude
         self.longitude = r.longitude
       end
