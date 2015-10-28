@@ -8,6 +8,12 @@ class GeocoderStub
         {"dma_code"=>"0", "ip"=>"8.8.8.8", "asn"=>"AS15169", "city"=>"Mountain View", "latitude"=>37.386, "country_code"=>"US", "offset"=>"-7", "country"=>"United States", "region_code"=>"CA", "isp"=>"Google Inc.", "timezone"=>"America/Los_Angeles", "area_code"=>"0", "continent_code"=>"NA", "longitude"=>-122.0838, "region"=>"California", "postal_code"=>"94040", "country_code3"=>"USA"},
       :error => nil
     },
+    '192.168.1.1' => {  # an example host without physical location
+      :ip_address => true,
+      :data =>
+        {"dma_code"=>"0", "ip"=>"192.168.1.1"},
+      :error => nil
+    },
     'www.google.com' => {
       :ip_address => true,
       :data => nil,
@@ -48,10 +54,20 @@ class GeocoderStub
       return nil
     end
     def pr.longitude
-      self[:data]['longitude'] || self[:data]['geometry']['location']['lng']
+      if self[:data]['geometry'] and self[:data]['geometry']['location']
+        return self[:data]['geometry']['location']['lng']
+      elsif self[:data]
+        return self[:data]['longitude']
+      end
+      return nil
     end
     def pr.latitude
-      self[:data]['latitude'] || self[:data]['geometry']['location']['lat']
+      if self[:data]['geometry'] and self[:data]['geometry']['location']
+        return self[:data]['geometry']['location']['lat']
+      elsif self[:data]
+        return self[:data]['latitude']
+      end
+      return nil
     end
     return [pr]
   end
@@ -90,18 +106,24 @@ class LocationTest < ActiveSupport::TestCase
   test "looking up an IP address should return a valid location" do
     l = Location.new(:host => '8.8.8.8')
     l.geocode_from_host!
-    assert l.geocoded?
+    assert l.geocoded?, "Location with enough information shows not geocoded"
+  end
+
+  test "looking up a private IP address should not return a valid location" do
+    l = Location.new(:host => '192.168.1.1')
+    l.geocode_from_host!
+    assert_not l.geocoded?, "Host with private IP address shows geocoded"
   end
 
   test "looking up FQDN shuold return a valid location" do
     l = Location.new(:host => 'www.google.com')
     l.geocode_from_host!
-    assert l.geocoded?
+    assert l.geocoded?, "Host with FQDN shows not geocoded"
   end
 
   test "looking up a city name should return a valid location" do
     l = Location.new(:city => 'Paris, France')
     l.geocode_from_city!
-    assert l.geocoded?
+    assert l.geocoded?, "City shows not geocoded"
   end
 end
