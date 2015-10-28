@@ -126,4 +126,10 @@ class LocationTest < ActiveSupport::TestCase
     l.geocode_from_city!
     assert l.geocoded?, "City shows not geocoded"
   end
+
+  test "looking up a private IP address with a city should return a valid location" do
+    l = Location.new(:host => '192.168.1.1', :city => 'Paris, France')
+    l.geocode!
+    assert l.geocoded?, "Host with private IP address and a city shows not geocoded"
+  end
 end
