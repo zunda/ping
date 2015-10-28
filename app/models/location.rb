@@ -36,4 +36,11 @@ class Location < ActiveRecord::Base
       end
       return r
   end
+
+  def geocoded?
+    return false if self.city.blank?
+    return false unless self.latitude.is_a?(Numeric)
+    return false unless self.longitude.is_a?(Numeric)
+    return true
+  end
 end

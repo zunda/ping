@@ -72,27 +72,36 @@ class LocationTest < ActiveSupport::TestCase
   Location::geocoder = GeocoderStub
   Location::resolver = ResolvStub
 
+  test "location is geocoded with city, longitude, and latitude" do
+    l = Location.new(:city => 'foo', :longitude => 0.0, :latitude => 0.0)
+    assert l.geocoded?, "Location with enough information shows not geocoded"
+  end
+
+  test "location is not geocoded without city" do
+    l = Location.new(:city => nil, :longitude => 0.0, :latitude => 0.0)
+    assert_not l.geocoded?, "Location without city shows geocoded"
+  end
+
+  test "location is not geocoded without coordinates" do
+    l = Location.new(:city => 'foo', :longitude => nil, :latitude => nil)
+    assert_not l.geocoded?, "Location without coordinate shows geocoded"
+  end
+
   test "looking up an IP address should return a valid location" do
     l = Location.new(:host => '8.8.8.8')
     l.geocode_from_host!
-    assert_not_empty l.city
-    assert l.longitude.is_a?(Float), "longitude #{l.longitude.inspect} is not a float"
-    assert l.latitude.is_a?(Float), "latitude #{l.latitude.inspect} is not a float"
+    assert l.geocoded?
   end
 
   test "looking up FQDN shuold return a valid location" do
     l = Location.new(:host => 'www.google.com')
     l.geocode_from_host!
-    assert_not_empty l.city
-    assert l.longitude.is_a?(Float), "longitude #{l.longitude.inspect} is not a float"
-    assert l.latitude.is_a?(Float), "latitude #{l.latitude.inspect} is not a float"
+    assert l.geocoded?
   end
 
   test "looking up a city name should return a valid location" do
     l = Location.new(:city => 'Paris, France')
     l.geocode_from_city!
-    assert_not_empty l.city
-    assert l.longitude.is_a?(Float), "longitude #{l.longitude.inspect} is not a float"
-    assert l.latitude.is_a?(Float), "latitude #{l.latitude.inspect} is not a float"
+    assert l.geocoded?
   end
 end
