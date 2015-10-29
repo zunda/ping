@@ -1,4 +1,5 @@
 class LocationsController < ApplicationController
+  include Requested
   before_action :set_location, only: [:show, :edit, :update, :destroy]
 
   # GET /locations
@@ -15,6 +16,7 @@ class LocationsController < ApplicationController
   # GET /locations/new
   def new
     @location = Location.new
+    @location.host = src_addr_on_header
   end
 
   # GET /locations/1/edit
