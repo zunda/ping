@@ -2,6 +2,7 @@ require 'resolv'
 
 class Location < ActiveRecord::Base
   include ApplicationHelper
+	validates :host, presence: true
 
   @@geocoder = Geocoder
   def Location::geocoder=(klass)

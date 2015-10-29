@@ -132,4 +132,9 @@ class LocationTest < ActiveSupport::TestCase
     l.geocode!
     assert l.geocoded?, "Host with private IP address and a city shows not geocoded"
   end
+
+	test "host should not be empty" do
+    l = Location.new(:host => '')
+		assert_not l.save, "Saved the location without a valid host"
+	end
 end
