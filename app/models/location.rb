@@ -2,7 +2,7 @@ require 'resolv'
 
 class Location < ActiveRecord::Base
   include ApplicationHelper
-	validates :host, presence: true
+  validates :host, presence: true
 
   @@geocoder = Geocoder
   def Location::geocoder=(klass)
@@ -20,12 +20,14 @@ class Location < ActiveRecord::Base
       ipaddress = @@resolver.getaddress(ipaddress)
     end
     r = @@geocoder.search(ipaddress, ip_address: true).first
+    logger.info "Geocoded from host: #{r.inspect}" if r
     obtain_geocode_result(r)
     return r
   end
 
   def geocode_from_city!
     r = @@geocoder.search(city).first
+    logger.info "Geocoded from city: #{r.inspect}" if r
     obtain_geocode_result(r)
     return r
   end
