@@ -45,35 +45,36 @@ class GeocoderStub
     return [nil] unless pr
     return [nil] unless (!opts[:ip_address] == !pr[:ip_address])	# !: I want false and nil to be equal here
     return [nil] if pr[:error]  # Geocoder gem does not raise an error
+    def pr.data
+      self[:data]
+    end
     def pr.address
-      data = self[:data]
-      if data['city']
-        return "#{data['city']}, #{data['region_code']} #{data['postal_code']}, #{data['country']}"
+      if self.data['city']
+        return "#{self.data['city']}, #{self.data['region_code']} #{self.data['postal_code']}, #{self.data['country']}"
       end
       return nil
     end
     def pr.city
-      data = self[:data]
-      if data['address_components']
-        return data['address_components'][0]['long_name']
+      if self.data['address_components']
+        return self.data['address_components'][0]['long_name']
       end
       return nil
     end
     def pr.longitude
-      if self[:data]['geometry'] and self[:data]['geometry']['location']
-        return self[:data]['geometry']['location']['lng']
-      elsif self[:data] and self[:data]['longitude']
-        return self[:data]['longitude']
+      if self.data['geometry'] and self.data['geometry']['location']
+        return self.data['geometry']['location']['lng']
+      elsif self.data and self.data['longitude']
+        return self.data['longitude']
       else
         return 0.0  # sad
       end
       return nil
     end
     def pr.latitude
-      if self[:data]['geometry'] and self[:data]['geometry']['location']
-        return self[:data]['geometry']['location']['lat']
-      elsif self[:data] and self[:data]['latitude']
-        return self[:data]['latitude']
+      if self.data['geometry'] and self.data['geometry']['location']
+        return self.data['geometry']['location']['lat']
+      elsif self.data and self.data['latitude']
+        return self.data['latitude']
       else
         return 0.0  # sad
       end

@@ -21,7 +21,7 @@ class Location < ActiveRecord::Base
     end
     r = @@geocoder.search(ipaddress, ip_address: true).first
     logger.info "Geocoded from host: #{r.inspect}" if r
-    obtain_geocode_result(r) if r and r.has_key?(:data) and r[:data]['ip']
+    obtain_geocode_result(r) if r and r.respond_to?(:data) and r.data['ip']
     # IP address is assumed to be geocoded if there is 'ip' set
     return r
   end
