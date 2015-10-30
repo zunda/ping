@@ -14,6 +14,12 @@ class GeocoderStub
         {"dma_code"=>"0", "ip"=>"192.168.1.1"},
       :error => nil
     },
+    '127.0.0.1' => {  # an example host with "invalid" IP address
+      :ip_address => true,
+      :data =>
+        {"message"=>"Input string is not a valid IP address", "code"=>401},
+      :error => nil
+    },
     'www.google.com' => {
       :ip_address => true,
       :data => nil,
@@ -56,16 +62,20 @@ class GeocoderStub
     def pr.longitude
       if self[:data]['geometry'] and self[:data]['geometry']['location']
         return self[:data]['geometry']['location']['lng']
-      elsif self[:data]
+      elsif self[:data] and self[:data]['longitude']
         return self[:data]['longitude']
+      else
+        return 0.0  # sad
       end
       return nil
     end
     def pr.latitude
       if self[:data]['geometry'] and self[:data]['geometry']['location']
         return self[:data]['geometry']['location']['lat']
-      elsif self[:data]
+      elsif self[:data] and self[:data]['latitude']
         return self[:data]['latitude']
+      else
+        return 0.0  # sad
       end
       return nil
     end
@@ -131,6 +141,20 @@ class LocationTest < ActiveSupport::TestCase
     l = Location.new(:host => '192.168.1.1', :city => 'Paris, France')
     l.geocode!
     assert l.geocoded?, "Host with private IP address and a city shows not geocoded"
+  end
+
+  test "looking up a private IP address without a city should not return a valid location" do
+    l = Location.new(:host => '192.168.1.1')
+    l.geocode!
+    assert_not l.geocoded?, "Host with private IP address without a city shows geocoded"
+  end
+
+  test "looking up a loopback IP address without a city should not return a valid location" do
+    l = Location.new(:host => '127.0.0.1')
+    l.geocode!
+    assert_not l.geocoded?, "Host with loopback IP address without a city shows geocoded"
+    assert_not l.latitude, "Host with loopback IP address without a city has a latitude"
+    assert_not l.longitude, "Host with loopback IP address without a city has a longitude"
   end
 
 	test "host should not be empty" do
