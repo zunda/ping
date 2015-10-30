@@ -1,4 +1,5 @@
 class PingResultsController < ApplicationController
+  include Requested
   before_action :set_ping_result, only: [:show, :edit, :update, :destroy]
 
   # GET /ping_results
@@ -65,16 +66,6 @@ class PingResultsController < ApplicationController
   end
 
   private
-    # Obtain IP address from http request header
-    def src_addr_on_header
-       request.headers['X-Forwarded-For'] || request.headers['REMOTE_ADDR']
-    end
-
-    # Obtain User Agent from http request header
-    def user_agent_on_header
-       request.headers['HTTP_USER_AGENT']
-    end
-
     # Use callbacks to share common setup or constraints between actions.
     def set_ping_result
       @ping_result = PingResult.find(params[:id])

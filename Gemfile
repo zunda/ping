@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.2.2'
+ruby '2.1.2'
 
 gem 'puma'
 
@@ -32,6 +32,9 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
+
+gem 'resque', "~> 1.22.0"
+gem 'geocoder'
 
 group :development, :test do
   # Use sqlite3 as the database for Active Record

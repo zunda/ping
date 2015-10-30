@@ -1,2 +1,5 @@
 module ApplicationHelper
+  VALID_IPADDR_REGEX = Regexp.union(IPAddr::RE_IPV4ADDRLIKE,
+    IPAddr::RE_IPV6ADDRLIKE_FULL,
+    IPAddr::RE_IPV6ADDRLIKE_COMPRESSED)
 end
