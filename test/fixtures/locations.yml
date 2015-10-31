@@ -1,13 +1,13 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  host: MyString
+  host: 192.168.1.1
   latitude: 1.5
   longitude: 1.5
   city: MyString
 
 two:
-  host: MyString
+  host: ::1
   latitude: 1.5
   longitude: 1.5
   city: MyString
