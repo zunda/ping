@@ -34,6 +34,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # gem 'capistrano-rails', group: :development
 
 gem 'resque', "~> 1.22.0"
+gem 'resque-scheduler'
 gem 'geocoder'
 
 group :development, :test do
