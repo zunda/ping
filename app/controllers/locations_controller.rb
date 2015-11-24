@@ -2,12 +2,24 @@ class LocationsController < ApplicationController
   include Requested
   before_action :set_location, only: [:show, :edit, :update, :destroy]
 
+  @@geocodejob = GeocodeJob
+  def LocationsController::geocodejob=(klass)
+    @@geocodejob = klass
+  end
+  def LocationsController::geocodejob
+    @@geocodejob
+  end
+
   # GET /locations/current
   # GET /locations/current.json
   def current
     @location = Location.where(host: src_addr_on_header).order(updated_at: :desc).first
-    new if not @location or @location.expired?
-    @location.save! unless @location.id
+    if not @location or @location.expired?
+      new
+      @location.save! # assign an id to be presneted to the front end
+      @@geocodejob.perform_later(id: @location.id, host: @location.host)
+    end
+    # TODO: respond_to
   end
 
   # GET /locations
@@ -34,7 +46,7 @@ class LocationsController < ApplicationController
   # POST /locations
   # POST /locations.json
   def create
-    GeocodeJob.perform_later(location_params)
+    @@geocodejob.perform_later(location_params)
 
     respond_to do |format|
       format.html { redirect_to locations_url, notice: 'Location was enqued.' }
