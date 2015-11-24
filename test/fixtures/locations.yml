@@ -12,3 +12,10 @@ two:
   latitude: 1.5
   longitude: 1.5
   city: MyString
+
+three:
+  host: 192.168.1.2
+  latitude: 1.5
+  longitude: 1.5
+  city: Old city
+  updated_at: 1995-11-24 04:17:00

@@ -163,4 +163,11 @@ class LocationTest < ActiveSupport::TestCase
     l = Location.new(:host => '')
     assert_not l.save, "Saved the location without a valid host"
   end
+
+  test "expires after a while" do
+    updated_at = Time.gm(2015, 11, 24, 4, 30)
+    l = Location.new(:host => '127.0.0.1', :updated_at => updated_at)
+    assert l.expired?(updated_at + Location::Expires_after + 1)
+    assert_not l.expired?(updated_at)
+  end
 end
