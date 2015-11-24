@@ -79,8 +79,8 @@ class GeocoderStub
   def self.search(query, opts = {})
     pr = PreparedResponses[query]
     return [nil] unless pr
-    return [nil] unless (!opts[:ip_address] == !pr.ip_address)	# !: I want false and nil to be equal here
-    return [nil] if pr.error	# Geocoder gem does not raise an error
+    return [nil] unless (!opts[:ip_address] == !pr.ip_address)  # !: I want false and nil to be equal here
+    return [nil] if pr.error  # Geocoder gem does not raise an error
     return [pr]
   end
 end
@@ -159,8 +159,8 @@ class LocationTest < ActiveSupport::TestCase
     assert_not l.longitude, "Host with loopback IP address without a city has a longitude"
   end
 
-	test "host should not be empty" do
+  test "host should not be empty" do
     l = Location.new(:host => '')
-		assert_not l.save, "Saved the location without a valid host"
-	end
+    assert_not l.save, "Saved the location without a valid host"
+  end
 end
