@@ -5,10 +5,9 @@ class LocationsController < ApplicationController
   # GET /locations/current
   # GET /locations/current.json
   def current
-    # TODO: search for possibly known location
-    @location = Location.new
-    @location.host = src_addr_on_header
-    @location.save!
+    # TODO: expire
+    @location = Location.find_or_create_by(host: src_addr_on_header)
+    @location.save! unless @location.id
   end
 
   # GET /locations

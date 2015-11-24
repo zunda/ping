@@ -40,9 +40,21 @@ class LocationsControllerTest < ActionController::TestCase
   end
 
   test "should obtain new location when unknown" do
+    @request.headers['X-Forwarded-For'] = '192.168.2.1'
     assert_difference('Location.count', 1) do
-      get :current
+      get :current, format: :json
       assert_response :success
+    end
+  end
+
+  test "should obtain existing location when known" do
+    # in test/fixtures/locations.yml, id: 1
+    @request.headers['X-Forwarded-For'] = '192.168.1.1'
+    assert_difference('Location.count', 0) do
+      get :current, format: :json
+      assert_response :success
+      json = JSON.parse(response.body)
+      assert_equal 1, json['id']
     end
   end
 end
