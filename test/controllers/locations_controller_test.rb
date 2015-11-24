@@ -65,4 +65,15 @@ class LocationsControllerTest < ActionController::TestCase
       assert_equal 1, json['id']
     end
   end
+
+  test "should obtain latest location when known" do
+    # in test/fixtures/locations.yml, id: 4 and 5
+    @request.headers['X-Forwarded-For'] = '192.168.1.4'
+    assert_difference('Location.count', 0) do
+      get :current, format: :json
+      assert_response :success
+      json = JSON.parse(response.body)
+      assert_equal 5, json['id']
+    end
+  end
 end

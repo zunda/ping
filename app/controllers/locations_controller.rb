@@ -5,8 +5,8 @@ class LocationsController < ApplicationController
   # GET /locations/current
   # GET /locations/current.json
   def current
-    @location = Location.find_or_create_by(host: src_addr_on_header)
-    new if @location.expired?
+    @location = Location.where(host: src_addr_on_header).order(updated_at: :desc).first
+    new if not @location or @location.expired?
     @location.save! unless @location.id
   end
 
