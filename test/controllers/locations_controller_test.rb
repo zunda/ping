@@ -38,4 +38,11 @@ class LocationsControllerTest < ActionController::TestCase
 
     assert_redirected_to locations_path
   end
+
+  test "should obtain new location when unknown" do
+    assert_difference('Location.count', 1) do
+      get :current
+      assert_response :success
+    end
+  end
 end

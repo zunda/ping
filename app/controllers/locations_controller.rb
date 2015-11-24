@@ -2,6 +2,15 @@ class LocationsController < ApplicationController
   include Requested
   before_action :set_location, only: [:show, :edit, :update, :destroy]
 
+  # GET /locations/current
+  # GET /locations/current.json
+  def current
+    # TODO: search for possibly known location
+    @location = Location.new
+    @location.host = src_addr_on_header
+    @location.save!
+  end
+
   # GET /locations
   # GET /locations.json
   def index
