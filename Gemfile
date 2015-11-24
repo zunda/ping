@@ -37,8 +37,6 @@ gem 'geocoder'
 
 gem 'react-rails', '~> 1.0'
 
-gem 'rails_12factor'
-
 group :development, :test do
   # Use sqlite3 as the database for Active Record
   gem 'sqlite3'
@@ -56,3 +54,5 @@ end
 group :production do
   gem 'pg'
 end
+
+gem 'rails_12factor', :group => [:development, :production]
