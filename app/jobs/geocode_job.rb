@@ -4,6 +4,6 @@ class GeocodeJob < ActiveJob::Base
   def perform(*args)
     location = Location.new(*args)
     location.geocode!
-    location.save
+    location.save	# TODO: update if possible
   end
 end
