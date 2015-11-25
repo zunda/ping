@@ -1,17 +1,25 @@
 var MeasurementBox = React.createClass({
-  loadClientLocation: function() {
+  loadLocation: function(path, prop) {
     var path = "/locations/current";
+    var state = new Object();
     $.ajax({
       url: path,
       dataType: 'json',
       cache: true,
       success: function(data) {
-        this.setState({client: data.id});
+        state[prop] = data.id
+        this.setState(state);
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(path, status, err.toString());
       }.bind(this)
     });
+  },
+  loadClientLocation: function() {
+    this.loadLocation("/locations/current", 'client');
+  },
+  loadServerLocation: function() {
+    this.loadLocation("/locations/server", 'server');
   },
 
   getInitialState: function() {
@@ -19,11 +27,13 @@ var MeasurementBox = React.createClass({
   },
   componentDidMount: function() {
     this.loadClientLocation();
+    this.loadServerLocation();
   },
   render: function() {
     return (
       <div className="MeasurementBox">
         Client id is {this.state.client}.
+        Server id is {this.state.server}.
       </div>
     );
   }
