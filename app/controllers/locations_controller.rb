@@ -19,7 +19,6 @@ class LocationsController < ApplicationController
       @location.save! # assign an id to be presneted to the front end
       @@geocodejob.perform_later(id: @location.id, host: @location.host)
     end
-    # TODO: respond_to
   end
 
   # GET /locations
