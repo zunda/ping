@@ -37,3 +37,11 @@ five:
   longitude: 1.5
   city: New data
   updated_at: <%= Time.now - 5 %>
+
+six:
+  id: 6
+  host: www.example.com
+  latitude: 1.5
+  longitude: 1.5
+  city: New data
+  updated_at: <%= Time.now - 5 %>

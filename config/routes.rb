@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   get 'dashboard/index'
 
   get 'locations/current', :controller => 'locations', :action => 'current'
+  get 'locations/server', :controller => 'locations', :action => 'server'
   resources :locations
 
   resources :ping_results

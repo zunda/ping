@@ -15,10 +15,23 @@ class LocationsController < ApplicationController
   def current
     @location = Location.where(host: src_addr_on_header).order(updated_at: :desc).first
     if not @location or @location.expired?
-      new
+      @location = Location.new(host: src_addr_on_header)
       @location.save! # assign an id to be presneted to the front end
       @@geocodejob.perform_later(id: @location.id, host: @location.host)
     end
+    render :host, layout: false
+  end
+
+  # GET /locations/server
+  # GET /locations/server.json
+  def server
+    @location = Location.where(host: host_on_header).order(updated_at: :desc).first
+    if not @location	# Server location does not expire
+      @location = Location.new(host: host_on_header)
+      @location.save! # assign an id to be presneted to the front end
+      @@geocodejob.perform_later(id: @location.id, host: @location.host)
+    end
+    render :host, layout: false
   end
 
   # GET /locations

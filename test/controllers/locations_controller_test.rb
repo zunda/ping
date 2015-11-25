@@ -98,6 +98,7 @@ class LocationsControllerTest < ActionController::TestCase
         assert_response :success
         json = JSON.parse(response.body)
         assert_equal 1, json['id']
+        assert_equal @request.headers['X-Forwarded-For'], json['host']
       end
     end
   end
@@ -112,6 +113,18 @@ class LocationsControllerTest < ActionController::TestCase
         json = JSON.parse(response.body)
         assert_equal 5, json['id']
       end
+    end
+  end
+
+  test "should obtain server location when known" do
+  # in test/fixtures/locations.yml, id: 6
+  @request.headers['HTTP_HOST'] = 'www.example.com'
+    assert_difference('Location.count', 0) do
+      get :server, format: :json
+      assert_response :success
+      json = JSON.parse(response.body)
+      assert_equal 6, json['id']
+      assert_equal @request.headers['HTTP_HOST'], json['host']
     end
   end
 end
