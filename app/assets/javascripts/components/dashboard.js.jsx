@@ -1,6 +1,5 @@
 var MeasurementBox = React.createClass({
   loadLocation: function(path, prop) {
-    var path = "/locations/current";
     var state = new Object();
     $.ajax({
       url: path,
