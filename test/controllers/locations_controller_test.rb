@@ -45,8 +45,20 @@ class LocationsControllerTest < ActionController::TestCase
   end
 
   test "should update location" do
-    patch :update, id: @location, location: { city: @location.city, host: @location.host, latitude: @location.latitude, longitude: @location.longitude }
+    city_new = @location.city + "X"
+    @request.headers['X-Forwarded-For'] = @location.host
+    patch :update, id: @location, location: { city: city_new, host: @location.host, latitude: @location.latitude, longitude: @location.longitude }
     assert_redirected_to location_path(assigns(:location))
+    @location.reload
+    assert_equal city_new, @location.city
+  end
+
+  test "should not update location when IP address differs" do
+    city_orig = @location.city
+    @request.headers['X-Forwarded-For'] = @location.host + "X"
+    patch :update, id: @location, location: { city: @location.city + "X", host: @location.host, latitude: @location.latitude, longitude: @location.longitude }
+    @location.reload
+    assert_equal city_orig, @location.city
   end
 
   test "should destroy location" do
