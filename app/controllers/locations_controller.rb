@@ -17,7 +17,7 @@ class LocationsController < ApplicationController
     if not @location or @location.expired?
       @location = Location.new(host: src_addr_on_header)
       @location.save! # assign an id to be presneted to the front end
-      @@geocodejob.perform_later(id: @location.id, host: @location.host)
+      @@geocodejob.perform_later(id: @location.id)
     end
     render :host, layout: false
   end
@@ -29,7 +29,7 @@ class LocationsController < ApplicationController
     if not @location	# Server location does not expire
       @location = Location.new(host: host_on_header)
       @location.save! # assign an id to be presneted to the front end
-      @@geocodejob.perform_later(id: @location.id, host: @location.host)
+      @@geocodejob.perform_later(id: @location.id)
     end
     render :host, layout: false
   end
