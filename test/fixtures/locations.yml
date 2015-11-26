@@ -45,3 +45,7 @@ six:
   longitude: 1.5
   city: New data
   updated_at: <%= Time.now - 5 %>
+
+with_geocode_info:
+  id: 7
+  host: 8.8.8.8
