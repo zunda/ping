@@ -3,6 +3,7 @@ require 'resolv'
 class Location < ActiveRecord::Base
   include ApplicationHelper
   validates :host, presence: true
+  has_many :ping_results
 
   Expires_after = 86400 # sec
 

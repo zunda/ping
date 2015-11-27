@@ -61,6 +61,16 @@ class PingResultsControllerTest < ActionController::TestCase
     assert_equal user_agent, PingResult.last.user_agent
   end
 
+  test "should belong to a location if supplied" do
+    ping_result = ping_results(:location_test)
+    @request.headers['REMOTE_ADDR'] = ping_result.src_addr
+    assert_difference('PingResult.count') do
+      post :create, ping_result: { lag_ms: ping_result.lag_ms, src_addr: ping_result.src_addr, location_id: ping_result.location_id }
+    end
+    assert ping_result.location
+    assert_equal ping_result,  ping_result.location.ping_results.last
+  end
+
   test "should show ping_result" do
     get :show, id: @ping_result
     assert_response :success

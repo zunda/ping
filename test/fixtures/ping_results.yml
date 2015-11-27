@@ -7,3 +7,8 @@ one:
 two:
   lag_ms: 2.5
   src_addr: '2.3.4.5'
+
+location_test:
+  lag_ms: 123.4
+  src_addr: '192.168.1.64'
+  location_id: 1
