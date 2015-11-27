@@ -67,8 +67,8 @@ class PingResultsControllerTest < ActionController::TestCase
     assert_difference('PingResult.count') do
       post :create, ping_result: { lag_ms: ping_result.lag_ms, src_addr: ping_result.src_addr, location_id: ping_result.location_id }
     end
-    assert ping_result.location
-    assert_equal ping_result,  ping_result.location.ping_results.last
+    assert PingResult.last.location
+    assert_equal PingResult.last,  PingResult.last.location.ping_results.last
   end
 
   test "should show ping_result" do

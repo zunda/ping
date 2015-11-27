@@ -11,4 +11,5 @@ two:
 location_test:
   lag_ms: 123.4
   src_addr: '192.168.1.64'
+  user_agent: 'Rails Testing'
   location_id: 1
