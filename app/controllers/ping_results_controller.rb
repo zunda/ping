@@ -73,6 +73,6 @@ class PingResultsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def ping_result_params
-      params.require(:ping_result).permit(:lag_ms)
+      params.require(:ping_result).permit(:lag_ms, :location_id)
     end
 end
