@@ -12,7 +12,7 @@ var MeasurementBox = React.createClass({
           newState[propPrefix + "City"] = data.city;
           this.setState(newState);
         } else {
-          setTimeout(loadLocation.bind(this), this.interval, path, propPrefix);
+          setTimeout(this.loadLocation, this.interval, path, propPrefix);
         }
       }.bind(this),
       error: function(xhr, status, err) {
