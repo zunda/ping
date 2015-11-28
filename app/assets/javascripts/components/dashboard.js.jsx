@@ -4,7 +4,11 @@ var loadLocation = function(path) {
     dataType: 'json',
     cache: true,
     success: function(data) {
-      this.setState({id: data.id, city: data.city});
+      if (data.city) {
+        this.setState({id: data.id, city: data.city});
+      } else {
+        setTimeout(loadLocation.bind(this), 2000, path);
+      }
     }.bind(this),
     error: function(xhr, status, err) {
       console.error(path, status, err.toString());
