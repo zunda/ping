@@ -15,5 +15,15 @@
   <%= @ping_result.user_agent %>
 </p>
 
+<p>
+  <strong>Location id:</strong>
+  <%= @ping_result.location_id %>
+</p>
+
+<p>
+  <strong>Server location id:</strong>
+  <%= @ping_result.server_location_id %>
+</p>
+
 <%= link_to 'Edit', edit_ping_result_path(@ping_result) %> |
 <%= link_to 'Back', ping_results_path %>

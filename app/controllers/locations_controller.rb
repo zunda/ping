@@ -2,6 +2,38 @@ class LocationsController < ApplicationController
   include Requested
   before_action :set_location, only: [:show, :edit, :update, :destroy]
 
+  @@geocodejob = GeocodeJob
+  def LocationsController::geocodejob=(klass)
+    @@geocodejob = klass
+  end
+  def LocationsController::geocodejob
+    @@geocodejob
+  end
+
+  # GET /locations/current
+  # GET /locations/current.json
+  def current
+    @location = Location.where(host: src_addr_on_header).order(updated_at: :desc).first
+    if not @location or @location.expired?
+      @location = Location.new(host: src_addr_on_header)
+      @location.save! # assign an id to be presneted to the front end
+      @@geocodejob.perform_later(id: @location.id)
+    end
+    render :host, layout: false
+  end
+
+  # GET /locations/server
+  # GET /locations/server.json
+  def server
+    @location = Location.where(host: host_on_header).order(updated_at: :desc).first
+    if not @location	# Server location does not expire
+      @location = Location.new(host: host_on_header)
+      @location.save! # assign an id to be presneted to the front end
+      @@geocodejob.perform_later(id: @location.id)
+    end
+    render :host, layout: false
+  end
+
   # GET /locations
   # GET /locations.json
   def index
@@ -26,7 +58,7 @@ class LocationsController < ApplicationController
   # POST /locations
   # POST /locations.json
   def create
-    GeocodeJob.perform_later(location_params)
+    @@geocodejob.perform_later(location_params)
 
     respond_to do |format|
       format.html { redirect_to locations_url, notice: 'Location was enqued.' }
@@ -38,7 +70,7 @@ class LocationsController < ApplicationController
   # PATCH/PUT /locations/1.json
   def update
     respond_to do |format|
-      if @location.update(location_params)
+      if src_addr_on_header == @location.host and @location.update(location_params)
         format.html { redirect_to @location, notice: 'Location was successfully updated.' }
         format.json { render :show, status: :ok, location: @location }
       else

@@ -3,6 +3,9 @@ require 'resolv'
 class Location < ActiveRecord::Base
   include ApplicationHelper
   validates :host, presence: true
+  has_many :ping_results
+
+  Expires_after = 86400 # sec
 
   @@geocoder = Geocoder
   def Location::geocoder=(klass)
@@ -45,6 +48,12 @@ class Location < ActiveRecord::Base
     return false if self.city.blank?
     return false unless self.latitude.is_a?(Numeric)
     return false unless self.longitude.is_a?(Numeric)
+    return true
+  end
+
+  def expired?(time = Time.now)
+    return false unless self.updated_at
+    return false if self.updated_at > time - Location::Expires_after
     return true
   end
 

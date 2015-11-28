@@ -1,13 +1,51 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
+  id: 1
   host: 192.168.1.1
   latitude: 1.5
   longitude: 1.5
-  city: MyString
+  city: Test Location One
 
 two:
+  id: 2
   host: ::1
   latitude: 1.5
   longitude: 1.5
   city: MyString
+
+three:
+  id: 3
+  host: 192.168.1.2
+  latitude: 1.5
+  longitude: 1.5
+  city: Old city
+  updated_at: 1995-11-24 04:17:00
+
+four:
+  id: 4
+  host: 192.168.1.4
+  latitude: 1.5
+  longitude: 1.5
+  city: Old data
+  updated_at: <%= Time.now - 10 %>
+
+five:
+  id: 5
+  host: 192.168.1.4
+  latitude: 1.5
+  longitude: 1.5
+  city: New data
+  updated_at: <%= Time.now - 5 %>
+
+six:
+  id: 6
+  host: www.example.com
+  latitude: 1.5
+  longitude: 1.5
+  city: New data
+  updated_at: <%= Time.now - 5 %>
+
+with_geocode_info:
+  id: 7
+  host: 8.8.8.8

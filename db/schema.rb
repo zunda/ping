@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151024030550) do
+ActiveRecord::Schema.define(version: 20151127205924) do
 
   create_table "locations", force: :cascade do |t|
     t.string   "host"
@@ -25,9 +25,13 @@ ActiveRecord::Schema.define(version: 20151024030550) do
   create_table "ping_results", force: :cascade do |t|
     t.float    "lag_ms"
     t.string   "src_addr"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
     t.string   "user_agent"
+    t.integer  "location_id"
+    t.integer  "server_location_id"
   end
+
+  add_index "ping_results", ["location_id"], name: "index_ping_results_on_location_id"
 
 end

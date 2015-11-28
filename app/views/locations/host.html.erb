@@ -1,6 +1,11 @@
 <p id="notice"><%= notice %></p>
 
 <p>
+  <strong>Id:</strong>
+  <%= @location.id %>
+</p>
+
+<p>
   <strong>Host:</strong>
   <%= @location.host %>
 </p>
@@ -19,24 +24,6 @@
   <strong>City:</strong>
   <%= @location.city %>
 </p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Lag ms</th>
-      <th>Ping result id</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @location.ping_results.each do |ping_result| %>
-      <tr>
-        <td><%= ping_result.lag_ms %></td>
-        <td><%= ping_result.id %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
 
 <%= link_to 'Edit', edit_location_path(@location) %> |
 <%= link_to 'Back', locations_path %>

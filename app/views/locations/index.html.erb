@@ -5,6 +5,7 @@
 <table>
   <thead>
     <tr>
+      <th>Id</th>
       <th>Host</th>
       <th>Latitude</th>
       <th>Longitude</th>
@@ -16,6 +17,7 @@
   <tbody>
     <% @locations.each do |location| %>
       <tr>
+        <td><%= location.id %></td>
         <td><%= location.host %></td>
         <td><%= location.latitude %></td>
         <td><%= location.longitude %></td>

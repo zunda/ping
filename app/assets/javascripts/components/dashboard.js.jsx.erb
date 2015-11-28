@@ -1,0 +1,135 @@
+var MeasurementBox = React.createClass({
+  interval: 2000,
+  loadLocation: function(path, propPrefix) {
+    $.ajax({
+      url: path,
+      dataType: 'json',
+      cache: true,
+      success: function(data) {
+        if (data.city) {
+          var newState = {};
+          newState[propPrefix + "Id"] = data.id;
+          newState[propPrefix + "City"] = data.city;
+          this.setState(newState);
+        } else {
+          setTimeout(this.loadLocation, this.interval, path, propPrefix);
+        }
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(path, status, err.toString());
+      }.bind(this)
+    });
+  },
+
+  getInitialState: function() {
+    return {};
+  },
+  componentDidMount: function() {
+    this.loadLocation("/locations/current", "client");
+    this.loadLocation("/locations/server", "server");
+  },
+
+  render: function() {
+    return (
+      <div className="measurementBox">
+        <p>
+        Ping the server at <ServerCity city={this.state.serverCity} /> from <ClientCity city={this.state.clientCity} />!
+        </p>
+        <PingBox serverId={this.state.serverId} clientId={this.state.clientId} />
+      </div>
+    );
+  }
+});
+
+var ClientCity = React.createClass({
+  render: function() {
+    var city = this.props.city;
+    if (!city) {
+      city = "unknown location";
+    }
+    return (
+      <span className="clientCity">{city}</span>
+    );
+  }
+});
+
+var ServerCity = React.createClass({
+  render: function() {
+    var city = this.props.city;
+    if (!city) {
+      city = "unknown location";
+    }
+    return (
+      <span className="serverCity">{city}</span>
+    );
+  }
+});
+
+var ping = {
+  pingButton: "Ping",
+  pingingButton: "...",
+  postButton: "Post",
+  result: null,
+  serverId: null,
+  clientId: null
+};
+
+var PingBox = React.createClass({
+  handleSubmit: function(e) {
+    e.preventDefault();
+    if (e.target.button.value == ping.pingButton) {
+      e.target.button.value = ping.pingingButton;
+      pingBoxState = 1;
+      e.target.button.value = "...";
+      e.target.ping_result_lag_ms.value = "";
+      e.target.ping_progress.value = "";
+      var ping_progress = "";
+      Pinger.measure(
+        "<%= path_to_javascript 'ping' %>",
+        function(lag){
+          ping_progress = ping_progress + " " + lag;
+          $("#ping_progress").val(ping_progress);
+        },
+        function(lag){
+          $("#ping_result_lag_ms").val(lag);
+          ping.result = lag;
+          e.target.button.value = ping.postButton;
+        }
+      );
+    } else if (e.target.button.value == ping.postButton) {
+      $.ajax({
+        url: "/ping_results",
+        type: "POST",
+        dataType: 'json',
+        cache: false,
+        data: {
+          ping_result: {
+            lag_ms: ping.result,
+            location_id: ping.clientId,
+            server_location_id: ping.serverId
+          }
+        },
+        success: function(data) {
+          e.target.button.value = ping.pingButton;
+          e.target.ping_result_lag_ms.value = "";
+          e.target.ping_progress.value = "";
+        },
+        error: function(xhr, status, err) {
+          console.error(path, status, err.toString());
+        }
+      });
+    };
+  },
+  render: function() {
+    ping.serverId = this.props.serverId;
+    ping.clientId = this.props.clientId;
+    return (
+      <form className="PingBox" onSubmit={this.handleSubmit}>
+        <input type="submit" id="button" value={ping.pingButton} />
+        <input type="text" placeholder="Median" id="ping_result_lag_ms" readOnly />
+        <input type="text" placeholder="Progress" id="ping_progress" readOnly />
+        msec
+      </form>
+    );
+  }
+});
