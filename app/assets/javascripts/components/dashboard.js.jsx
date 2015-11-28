@@ -16,14 +16,13 @@ var MeasurementBox = React.createClass({
   render: function() {
     return (
       <div className="measurementBox">
-        <ServerBox />
-        <ClientBox />
+        Ping the server at <ServerCity /> from <ClientCity />!
       </div>
     );
   }
 });
 
-var ClientBox = React.createClass({
+var ClientCity = React.createClass({
   getInitialState: function() {
     return {};
   },
@@ -37,14 +36,12 @@ var ClientBox = React.createClass({
       city = "unknown location";
     }
     return (
-      <div className="clientBox">
-        Your are at {city}.
-      </div>
+      <span className="clientCity">{city}</span>
     );
   }
 });
 
-var ServerBox = React.createClass({
+var ServerCity = React.createClass({
   getInitialState: function() {
     return {};
   },
@@ -58,9 +55,7 @@ var ServerBox = React.createClass({
       city = "unknown location";
     }
     return (
-      <div className="serverBox">
-        Ping the server at {city}!
-      </div>
+      <span className="serverCity">{city}</span>
     );
   }
 });
