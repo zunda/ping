@@ -43,7 +43,7 @@ var MeasurementBox = React.createClass({
 
 var ClientCity = React.createClass({
   render: function() {
-    var city = this.props.data;
+    var city = this.props.city;
     if (!city) {
       city = "unknown location";
     }
@@ -55,7 +55,7 @@ var ClientCity = React.createClass({
 
 var ServerCity = React.createClass({
   render: function() {
-    var city = this.props.data;
+    var city = this.props.city;
     if (!city) {
       city = "unknown location";
     }
