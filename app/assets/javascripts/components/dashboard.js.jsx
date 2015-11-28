@@ -30,9 +30,19 @@ var MeasurementBox = React.createClass({
   },
   render: function() {
     return (
-      <div className="MeasurementBox">
+      <div className="measurementBox">
         Client id is {this.state.client}.
-        Server id is {this.state.server}.
+        <ServerBox data={this.state.server} />
+      </div>
+    );
+  }
+});
+
+var ServerBox = React.createClass({
+  render: function() {
+    return (
+      <div className="serverBox">
+        Server id is {this.props.data}.
       </div>
     );
   }
