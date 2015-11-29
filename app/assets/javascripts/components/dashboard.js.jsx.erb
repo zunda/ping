@@ -9,19 +9,29 @@ var MeasurementBox = React.createClass({
         var newState = {};
         newState[propPrefix + "Id"] = data.id;
         newState[propPrefix + "City"] = data.city;
+        newState[propPrefix + "CityError"] = null;
         this.setState(newState);
         if (!data.city) { // retry until we get the city
           setTimeout(this.loadLocation, this.interval, path, propPrefix);
         }
       }.bind(this),
       error: function(xhr, status, err) {
-        console.error(status, err.toString());
-      }
+        var errString = err.toString();
+        var newState = {};
+        newState[propPrefix + "CityError"] = errString;
+        this.setState(newState);
+        console.error(status, errString);
+      }.bind(this)
     });
   },
 
   getInitialState: function() {
-    return {};
+    return {
+      serverCity: "unknown location",
+      serverCityError: null,
+      clientCity: "unknown location",
+      clientCityError: null
+    };
   },
   componentDidMount: function() {
     this.loadLocation("/locations/current", "client");
@@ -31,23 +41,37 @@ var MeasurementBox = React.createClass({
   render: function() {
     return (
       <div className="measurementBox">
-        <p>
-        Ping the server at <ServerCity city={this.state.serverCity} /> from <ClientCity city={this.state.clientCity} />!
-        </p>
+        <p>Ping the server at <ServerCity city={this.state.serverCity} /> from <ClientCity city={this.state.clientCity} />!</p>
+        <LocationFetchError server={this.state.serverCityError} client={this.state.clientCityError} />
         <PingBox serverId={this.state.serverId} clientId={this.state.clientId} />
       </div>
     );
   }
 });
 
+var LocationFetchError = React.createClass({
+  render: function() {
+    var message = ""
+    if (this.props.server || this.props.client) {
+      message = "Error in fetching";
+    }
+    if (this.props.server) {
+      message += " - server location: " + this.props.server;
+    }
+    if (this.props.client) {
+      message += " - client location: " + this.props.client;
+    }
+    return (
+      <div className="locationFetchErrorBox">{message}</div>
+    );
+  }
+})
+
 var ClientCity = React.createClass({
   render: function() {
     var city = this.props.city;
-    if (!city) {
-      city = "unknown location";
-    }
     return (
-      <span className="clientCity">{city}</span>
+      <span className="clientCity"><tt>{city}</tt></span>
     );
   }
 });
@@ -55,11 +79,8 @@ var ClientCity = React.createClass({
 var ServerCity = React.createClass({
   render: function() {
     var city = this.props.city;
-    if (!city) {
-      city = "unknown location";
-    }
     return (
-      <span className="serverCity">{city}</span>
+      <span className="serverCity"><tt>{city}</tt></span>
     );
   }
 });
@@ -79,7 +100,8 @@ var PingBox = React.createClass({
       buttonValue: ping.pingButton,
       buttonDisabled: false,
       resultValue: "",
-      progressValue: ""
+      progressValue: "",
+      error: null
     };
   },
   handleSubmit: function(e) {
@@ -124,12 +146,16 @@ var PingBox = React.createClass({
           this.setState({
             buttonValue: ping.pingButton,
             resultValue: "",
-            progressValue: ""
+            progressValue: "",
+            error: null
           });
         }.bind(this),
         error: function(xhr, status, err) {
-          console.error(status, err.toString());
-        }
+          var errorString = err.toString();
+          this.setState({error: errorString});
+          console.error(status, errorString);
+
+        }.bind(this)
       });
     };
   },
@@ -137,12 +163,27 @@ var PingBox = React.createClass({
     ping.serverId = this.props.serverId;
     ping.clientId = this.props.clientId;
     return (
-      <form className="PingBox" onSubmit={this.handleSubmit}>
-        <input type="submit" id="button" value={this.state.buttonValue} disabled={this.state.buttonDisabled} />
-        <input type="text" placeholder="Median" id="ping_result_lag_ms" value={this.state.resultValue} size="5" readOnly />
-        <input type="text" placeholder="Progress" id="ping_progress" value={this.state.progressValue} size="24" readOnly />
-        msec
-      </form>
+      <div>
+        <form className="PingBox" onSubmit={this.handleSubmit}>
+          <input type="submit" id="button" value={this.state.buttonValue} disabled={this.state.buttonDisabled} />
+          <input type="text" placeholder="Median" id="ping_result_lag_ms" value={this.state.resultValue} size="5" readOnly />
+          <input type="text" placeholder="Progress" id="ping_progress" value={this.state.progressValue} size="24" readOnly />
+          msec
+        </form>
+      <PingResultError error={this.state.error} />
+      </div>
+    );
+  }
+});
+
+var PingResultError = React.createClass({
+  render: function() {
+    var error = "";
+    if (this.props.error) {
+      error = "Problem in sending the result: " + this.props.error + ". Please reload and retry."
+    }
+    return (
+      <div className="pingResultError">{error}</div>
     );
   }
 });
