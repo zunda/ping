@@ -1,11 +1,13 @@
 Rails.application.routes.draw do
-  get 'dashboard/index'
+  root to: 'dashboard#index'
 
   get 'locations/current', :controller => 'locations', :action => 'current'
   get 'locations/server', :controller => 'locations', :action => 'server'
   resources :locations
-
   resources :ping_results
+
+  #get 'dashboard/index'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
