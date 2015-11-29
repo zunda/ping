@@ -92,7 +92,7 @@ var PingBox = React.createClass({
         resultValue: "",
         progressValue: ping_progress
       });
-      Pinger.measure(
+      Pinger.measure.call(this,
         "<%= path_to_javascript 'ping' %>",
         function(lag){
           ping_progress = ping_progress + " " + lag;
@@ -106,7 +106,7 @@ var PingBox = React.createClass({
             resultValue: lag
           });
         }.bind(this)
-      ).bind(this);
+      );
     } else if (this.state.buttonValue == ping.postButton) {
       $.ajax({
         url: "/ping_results",
