@@ -54,3 +54,11 @@ for_location_test_in_ping_results:
   id: 42
   host: h2g2.example.com
   city: UK
+
+equator:
+  latitude: 0.0
+  longitude: 0.0
+
+north_pole:
+  latitude: 90.0
+  longitude: 0.0

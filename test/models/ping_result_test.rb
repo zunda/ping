@@ -33,4 +33,12 @@ class PingResultTest < ActiveSupport::TestCase
     ping_result.server_location_id = nil
     assert_not ping_result.save, "Saved the ping_result without a valid server location"
   end
+
+  test "calculates distance" do
+    ping_result = PingResult.new
+    # Locations defined in test/fixtures/locations.yml
+    ping_result.location_id = locations(:equator).id
+    ping_result.server_location_id = locations(:north_pole).id
+    assert_in_delta 10000, ping_result.distance, 10, "Distance between equator and north pole is not about 10000 km"
+  end
 end
