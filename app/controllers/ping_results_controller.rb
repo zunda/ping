@@ -16,7 +16,6 @@ class PingResultsController < ApplicationController
   # GET /ping_results/new
   def new
     @ping_result = PingResult.new
-    @ping_result.protocol = protocol_on_request
   end
 
   # GET /ping_results/1/edit
