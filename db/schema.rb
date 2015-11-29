@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151129033522) do
+ActiveRecord::Schema.define(version: 20151129034317) do
 
   create_table "locations", force: :cascade do |t|
     t.string   "host"
@@ -24,7 +24,6 @@ ActiveRecord::Schema.define(version: 20151129033522) do
 
   create_table "ping_results", force: :cascade do |t|
     t.float    "lag_ms"
-    t.string   "src_addr"
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
     t.string   "user_agent"

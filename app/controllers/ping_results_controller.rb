@@ -16,7 +16,6 @@ class PingResultsController < ApplicationController
   # GET /ping_results/new
   def new
     @ping_result = PingResult.new
-    @ping_result.src_addr = src_addr_on_header
     @ping_result.protocol = protocol_on_request
   end
 
@@ -28,7 +27,6 @@ class PingResultsController < ApplicationController
   # POST /ping_results.json
   def create
     @ping_result = PingResult.new(ping_result_params)
-    @ping_result.src_addr = src_addr_on_header
     @ping_result.user_agent = user_agent_on_header
     @ping_result.protocol = protocol_on_request
 

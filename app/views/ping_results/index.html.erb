@@ -6,7 +6,6 @@
   <thead>
     <tr>
       <th>Lag ms</th>
-      <th>Src addr</th>
       <th>User agent</th>
       <th>Location id</th>
       <th>Server location id</th>
@@ -19,7 +18,6 @@
     <% @ping_results.each do |ping_result| %>
       <tr>
         <td><%= ping_result.lag_ms %></td>
-        <td><%= ping_result.src_addr %></td>
         <td><%= ping_result.user_agent %></td>
         <td><%= ping_result.location_id %></td>
         <td><%= ping_result.server_location_id %></td>
