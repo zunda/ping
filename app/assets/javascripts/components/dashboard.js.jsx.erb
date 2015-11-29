@@ -66,7 +66,7 @@ var ServerCity = React.createClass({
 
 var ping = {
   pingButton: "Ping",
-  pingingButton: "...",
+  pingingButton: "......",
   postButton: "Post",
   result: null,
   serverId: null,
@@ -139,8 +139,8 @@ var PingBox = React.createClass({
     return (
       <form className="PingBox" onSubmit={this.handleSubmit}>
         <input type="submit" id="button" value={this.state.buttonValue} disabled={this.state.buttonDisabled} />
-        <input type="text" placeholder="Median" id="ping_result_lag_ms" value={this.state.resultValue} readOnly />
-        <input type="text" placeholder="Progress" id="ping_progress" value={this.state.progressValue} readOnly />
+        <input type="text" placeholder="Median" id="ping_result_lag_ms" value={this.state.resultValue} size="5" readOnly />
+        <input type="text" placeholder="Progress" id="ping_progress" value={this.state.progressValue} size="24" readOnly />
         msec
       </form>
     );
