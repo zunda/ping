@@ -32,7 +32,7 @@
     <% @location.ping_results.each do |ping_result| %>
       <tr>
         <td><%= ping_result.lag_ms %></td>
-        <td><%= ping_result.id %></td>
+        <td><%= link_to ping_result.id, ping_result %></td>
       </tr>
     <% end %>
   </tbody>

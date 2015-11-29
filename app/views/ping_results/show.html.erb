@@ -1,6 +1,11 @@
 <p id="notice"><%= notice %></p>
 
 <p>
+  <strong>Id:</strong>
+  <%= @ping_result.id %>
+</p>
+
+<p>
   <strong>Lag ms:</strong>
   <%= @ping_result.lag_ms %>
 </p>
@@ -12,12 +17,12 @@
 
 <p>
   <strong>Location id:</strong>
-  <%= @ping_result.location_id %>
+  <%= link_to @ping_result.location_id, @ping_result.location %>
 </p>
 
 <p>
   <strong>Server location id:</strong>
-  <%= @ping_result.server_location_id %>
+  <%= link_to @ping_result.server_location_id, Location.find(@ping_result.server_location_id) %>
 </p>
 
 <p>

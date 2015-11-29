@@ -5,6 +5,7 @@
 <table>
   <thead>
     <tr>
+      <th>Id</th>
       <th>Lag ms</th>
       <th>User agent</th>
       <th>Location id</th>
@@ -17,6 +18,7 @@
   <tbody>
     <% @ping_results.each do |ping_result| %>
       <tr>
+        <td><%= ping_result.id %></td>
         <td><%= ping_result.lag_ms %></td>
         <td><%= ping_result.user_agent %></td>
         <td><%= ping_result.location_id %></td>
