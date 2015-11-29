@@ -49,3 +49,8 @@ six:
 with_geocode_info:
   id: 7
   host: 8.8.8.8
+
+for_location_test_in_ping_results:
+  id: 42
+  host: h2g2.example.com
+  city: UK

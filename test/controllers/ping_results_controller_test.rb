@@ -3,8 +3,9 @@ require 'test_helper'
 class PingResultsControllerTest < ActionController::TestCase
   setup do
     @ping_result = ping_results(:one)
-    @request.headers['X-Forwarded-For'] = nil
+    @request.headers['X-Forwarded-For'] = Location.find(@ping_result.location_id).host
     @request.headers['REMOTE_ADDR'] = nil
+    @request.headers['HTTP_HOST'] = Location.find(@ping_result.server_location_id).host
   end
 
   test "should get index" do
@@ -52,6 +53,7 @@ class PingResultsControllerTest < ActionController::TestCase
 
   test "should record the server" do
     ping_result = ping_results(:location_test)
+    @request.headers['HTTP_HOST'] = Location.find(42).host
     assert_difference('PingResult.count') do
       post :create, ping_result: {
         lag_ms: ping_result.lag_ms,
@@ -73,6 +75,27 @@ class PingResultsControllerTest < ActionController::TestCase
     end
     assert_equal @request.protocol, PingResult.last.protocol
   end
+
+  test "should reject if client's IP address does not match" do
+    assert_no_difference('PingResult.count') do
+      post :create, ping_result: {
+        lag_ms: @ping_result.lag_ms,
+        location_id: @ping_result.location_id + 1,
+        server_location_id: @ping_result.server_location_id
+      }
+    end
+  end
+
+  test "should reject if server's FQDN does not match" do
+    assert_no_difference('PingResult.count') do
+      post :create, ping_result: {
+        lag_ms: @ping_result.lag_ms,
+        location_id: @ping_result.location_id,
+        server_location_id: @ping_result.server_location_id + 1
+      }
+    end
+  end
+
 
   test "should show ping_result" do
     get :show, id: @ping_result

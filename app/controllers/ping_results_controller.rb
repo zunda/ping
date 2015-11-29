@@ -30,8 +30,13 @@ class PingResultsController < ApplicationController
     @ping_result.user_agent = user_agent_on_header
     @ping_result.protocol = protocol_on_request
 
+    client = Location.where(host: src_addr_on_header).order(updated_at: :desc).first
+    server = Location.where(host: host_on_header).order(updated_at: :desc).first
+
     respond_to do |format|
-      if @ping_result.save
+       if (client && client.id) == @ping_result.location_id and
+           (server && server.id) == @ping_result.server_location_id and
+          @ping_result.save
         format.html { redirect_to @ping_result, notice: 'Ping result was successfully created.' }
         format.json { render :show, status: :created, location: @ping_result }
       else
