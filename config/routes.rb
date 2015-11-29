@@ -3,9 +3,9 @@ Rails.application.routes.draw do
 
   get 'locations/current', :controller => 'locations', :action => 'current'
   get 'locations/server', :controller => 'locations', :action => 'server'
-  resources :locations
-  resources :ping_results
+  resources :ping_results, :only => [:create, :show]
 
+  #resources :locations
   #get 'dashboard/index'
 
   # The priority is based upon order of creation: first created -> highest priority.
