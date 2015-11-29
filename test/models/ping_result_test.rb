@@ -3,6 +3,8 @@ require 'test_helper'
 class PingResultTest < ActiveSupport::TestCase
   ValidPingResult = {
     lag_ms: 123.45,
+    location_id: 67,
+    server_location_id: 89,
   }
 
   test "lag should not be nil" do
@@ -20,9 +22,15 @@ class PingResultTest < ActiveSupport::TestCase
     assert ping_result.save, "Did not save the ping_result with a positive lag"
   end
 
-  test "can belong to a location" do
-    ping_result = PingResult.new(ValidPingResult.merge(location_id: 1))
-    # test/fixtures/locations.yml
-    assert ping_result.save, "Did not save the ping_result with a valid location"
+  test "has to have a location" do
+    ping_result = PingResult.new
+    ping_result.location_id = nil
+    assert_not ping_result.save, "Saved the ping_result without a valid location"
+  end
+
+  test "has to have a server location" do
+    ping_result = PingResult.new
+    ping_result.server_location_id = nil
+    assert_not ping_result.save, "Saved the ping_result without a valid server location"
   end
 end

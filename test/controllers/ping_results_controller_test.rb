@@ -25,27 +25,39 @@ class PingResultsControllerTest < ActionController::TestCase
     @request.headers['REMOTE_ADDR'] = ipaddr
 
     assert_difference('PingResult.count') do
-      post :create, ping_result: { lag_ms: @ping_result.lag_ms, user_agent: @ping_result.user_agent }
+      post :create, ping_result: {
+        lag_ms: @ping_result.lag_ms,
+        user_agent: @ping_result.user_agent,
+        location_id: @ping_result.location_id,
+        server_location_id: @ping_result.server_location_id
+      }
     end
 
     assert_redirected_to ping_result_path(assigns(:ping_result))
     assert_equal user_agent, PingResult.last.user_agent
   end
 
-  test "should belong to a location if supplied" do
+  test "should belong to a location" do
     ping_result = ping_results(:location_test)
     assert_difference('PingResult.count') do
-      post :create, ping_result: { lag_ms: ping_result.lag_ms, location_id: ping_result.location_id }
+      post :create, ping_result: {
+        lag_ms: ping_result.lag_ms,
+        location_id: ping_result.location_id,
+        server_location_id: ping_result.server_location_id
+      }
     end
     assert PingResult.last.location
     assert_equal PingResult.last,  PingResult.last.location.ping_results.last
   end
 
-  test "should record the server location if supplied" do
+  test "should record the server" do
     ping_result = ping_results(:location_test)
-    ping_result.server_location_id = 42
     assert_difference('PingResult.count') do
-      post :create, ping_result: { lag_ms: ping_result.lag_ms, server_location_id: ping_result.server_location_id }
+      post :create, ping_result: {
+        lag_ms: ping_result.lag_ms,
+        location_id: ping_result.location_id,
+        server_location_id: 42
+      }
     end
     assert_equal 42, PingResult.last.server_location_id
   end
@@ -53,7 +65,11 @@ class PingResultsControllerTest < ActionController::TestCase
   test "should record the procotol" do
     assert @request.protocol, "protocol is not set"
     assert_difference('PingResult.count') do
-      post :create, ping_result: { lag_ms: @ping_result.lag_ms }
+      post :create, ping_result: {
+        lag_ms: @ping_result.lag_ms,
+        location_id: @ping_result.location_id,
+        server_location_id: @ping_result.server_location_id
+      }
     end
     assert_equal @request.protocol, PingResult.last.protocol
   end
