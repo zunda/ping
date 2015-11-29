@@ -30,5 +30,10 @@
   <%= @ping_result.protocol %>
 </p>
 
+<p>
+  <strong>Distance km:</strong>
+  <%= @ping_result.distance_km %>
+</p>
+
 <%= link_to 'Edit', edit_ping_result_path(@ping_result) %> |
 <%= link_to 'Back', ping_results_path %>

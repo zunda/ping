@@ -17,4 +17,8 @@ class PingResult < ActiveRecord::Base
       :units => :km
     )
   end
+
+  def measure_distance!
+    self.distance_km = distance
+  end
 end
