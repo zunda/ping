@@ -6,12 +6,11 @@ var MeasurementBox = React.createClass({
       dataType: 'json',
       cache: true,
       success: function(data) {
-        if (data.city) {
-          var newState = {};
-          newState[propPrefix + "Id"] = data.id;
-          newState[propPrefix + "City"] = data.city;
-          this.setState(newState);
-        } else {
+        var newState = {};
+        newState[propPrefix + "Id"] = data.id;
+        newState[propPrefix + "City"] = data.city;
+        this.setState(newState);
+        if (!data.city) { // retry until we get the city
           setTimeout(this.loadLocation, this.interval, path, propPrefix);
         }
       }.bind(this),
