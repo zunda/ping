@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151127205924) do
+ActiveRecord::Schema.define(version: 20151129033522) do
 
   create_table "locations", force: :cascade do |t|
     t.string   "host"
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 20151127205924) do
     t.string   "user_agent"
     t.integer  "location_id"
     t.integer  "server_location_id"
+    t.string   "protocol"
   end
 
   add_index "ping_results", ["location_id"], name: "index_ping_results_on_location_id"

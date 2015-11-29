@@ -81,6 +81,15 @@ class PingResultsControllerTest < ActionController::TestCase
     assert_equal 42, PingResult.last.server_location_id
   end
 
+  test "should record the procotol" do
+    @request.headers['REMOTE_ADDR'] = @ping_result.src_addr
+    assert @request.protocol, "protocol is not set"
+    assert_difference('PingResult.count') do
+      post :create, ping_result: { lag_ms: @ping_result.lag_ms, src_addr: @ping_result.src_addr }
+    end
+    assert_equal @request.protocol, PingResult.last.protocol
+  end
+
   test "should show ping_result" do
     get :show, id: @ping_result
     assert_response :success

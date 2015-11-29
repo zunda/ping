@@ -17,6 +17,7 @@ class PingResultsController < ApplicationController
   def new
     @ping_result = PingResult.new
     @ping_result.src_addr = src_addr_on_header
+    @ping_result.protocol = protocol_on_request
   end
 
   # GET /ping_results/1/edit
@@ -29,6 +30,7 @@ class PingResultsController < ApplicationController
     @ping_result = PingResult.new(ping_result_params)
     @ping_result.src_addr = src_addr_on_header
     @ping_result.user_agent = user_agent_on_header
+    @ping_result.protocol = protocol_on_request
 
     respond_to do |format|
       if @ping_result.save
