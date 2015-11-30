@@ -50,7 +50,7 @@ var MeasurementBox = React.createClass({
       clientCity: "unknown location",
       clientCityError: null,
       recentResults: [],
-      myResults: [{distance_km:2500.0, lag_ms:100.0}],
+      myResults: [],
       resultsError: null
     };
   },
@@ -64,9 +64,17 @@ var MeasurementBox = React.createClass({
     return (
       <div className="measurementBox">
         <p>Ping the server at <ServerCity city={this.state.serverCity} /> from <ClientCity city={this.state.clientCity} />!</p>
-        <DataFetchError server={this.state.serverCityError} client={this.state.clientCityError} results={this.state.resultsError} />
-        <PingBox serverId={this.state.serverId} clientId={this.state.clientId} />
-        <PlotBox recentResults={this.state.recentResults} myResults={this.state.myResults} />
+        <DataFetchError
+          server={this.state.serverCityError}
+          client={this.state.clientCityError}
+          results={this.state.resultsError}
+        />
+        <PingBox
+          serverId={this.state.serverId}
+          clientId={this.state.clientId}
+          recentResults={this.state.recentResults}
+          myResults={this.state.myResults}
+        />
       </div>
     );
   }
@@ -169,11 +177,17 @@ var PingBox = React.createClass({
           }
         },
         success: function(data) {
+          var myResults = this.props.myResults;
+          var d = data.distance_km;
+          if (d) {
+            myResults.push({lag_ms: data.lag_ms, distance_km: d});
+          }
           this.setState({
             buttonValue: ping.pingButton,
             resultValue: "",
             progressValue: "",
-            error: null
+            error: null,
+            myResults: myResults
           });
         }.bind(this),
         error: function(xhr, status, err) {
@@ -188,6 +202,8 @@ var PingBox = React.createClass({
   render: function() {
     ping.serverId = this.props.serverId;
     ping.clientId = this.props.clientId;
+    var recentResults=this.props.recentResults;
+    var myResults=this.props.myResults;
     return (
       <div>
         <form className="PingBox" onSubmit={this.handleSubmit}>
@@ -197,6 +213,10 @@ var PingBox = React.createClass({
           msec
         </form>
       <PingResultError error={this.state.error} />
+      <PlotBox
+        recentResults={recentResults}
+        myResults={myResults}
+      />
       </div>
     );
   }
