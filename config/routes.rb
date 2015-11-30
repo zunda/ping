@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   get 'locations/current', :controller => 'locations', :action => 'current'
   get 'locations/server', :controller => 'locations', :action => 'server'
+  get 'ping_results/recent', :controller => 'ping_results', :action => 'recent'
   resources :ping_results, :only => [:create, :show]
 
   if Rails.env.development? or Rails.env.test? or ENV['APP_STATUS'] =~ /staging/

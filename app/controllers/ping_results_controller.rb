@@ -2,6 +2,11 @@ class PingResultsController < ApplicationController
   include Requested
   before_action :set_ping_result, only: [:show, :edit, :update, :destroy]
 
+  # GET /ping_results/recent
+  def recent
+    @ping_results = PingResult.where.not(distance_km: nil).order(updated_at: :desc).limit(100)
+  end
+
   # GET /ping_results
   # GET /ping_results.json
   def index
