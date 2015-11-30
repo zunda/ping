@@ -54,3 +54,7 @@ A `tcpudmp` shows something like below for each ping.
 08:11:30.477844 IP ec2-54-243-156-39.compute-1.amazonaws.com.http > misoan.51404: Flags [P.], seq 2835:3052, ack 3100, win 96, length 217
 08:11:30.477929 IP misoan.51404 > ec2-54-243-156-39.compute-1.amazonaws.com.http: Flags [.], ack 3052, win 314, length 0
 ```
+
+## Samples
+- http://ping-us.herokuapp.com/
+- http://ping-eu.herokuapp.com/
