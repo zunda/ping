@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Recent Ping Results</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Lag ms</th>
+      <th>Distance km</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @ping_results.each do |ping_result| %>
+      <tr>
+        <td><%= ping_result.lag_ms %></td>
+        <td><%= ping_result.distance_km %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Ping result', new_ping_result_path %>

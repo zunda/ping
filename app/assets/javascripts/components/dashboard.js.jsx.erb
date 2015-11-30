@@ -1,5 +1,6 @@
 var MeasurementBox = React.createClass({
-  interval: 2000,
+  locationInterval: 2000,
+  resultInterval: 600000,
   loadLocation: function(path, propPrefix) {
     $.ajax({
       url: path,
@@ -12,7 +13,7 @@ var MeasurementBox = React.createClass({
         newState[propPrefix + "CityError"] = null;
         this.setState(newState);
         if (!data.city) { // retry until we get the city
-          setTimeout(this.loadLocation, this.interval, path, propPrefix);
+          setTimeout(this.loadLocation, this.locationInterval, path, propPrefix);
         }
       }.bind(this),
       error: function(xhr, status, err) {
@@ -24,6 +25,23 @@ var MeasurementBox = React.createClass({
       }.bind(this)
     });
   },
+  loadResults: function() {
+    $.ajax({
+      url: "/ping_results/recent",
+      dataType: 'json',
+      cache: true,
+      success: function(data) {
+        this.setState({recentResults: data ,resultsError: null});
+        setTimeout(this.loadResults, this.resultInterval);
+      }.bind(this),
+      error: function(xhr, status, err) {
+        var errString = err.toString();
+        this.setState({resultsError: errString});
+        console.error(status, errString);
+        setTimeout(this.loadResults, this.resultInterval);
+      }.bind(this)
+    });
+  },
 
   getInitialState: function() {
     return {
@@ -31,39 +49,30 @@ var MeasurementBox = React.createClass({
       serverCityError: null,
       clientCity: "unknown location",
       clientCityError: null,
-      results: [
-        {
-          label: 1,
-          values:[
-            {distance_km:4995.94242605257, lag_ms:155.0},
-            {distance_km:8556.85379011273, lag_ms:139.0}
-          ]
-        },
-        {
-          label: 2,
-          values:[{distance_km:2500.0, lag_ms:100.0}]
-        },
-      ]
+      recentResults: [],
+      myResults: [{distance_km:2500.0, lag_ms:100.0}],
+      resultsError: null
     };
   },
   componentDidMount: function() {
     this.loadLocation("/locations/current", "client");
     this.loadLocation("/locations/server", "server");
+    this.loadResults();
   },
 
   render: function() {
     return (
       <div className="measurementBox">
         <p>Ping the server at <ServerCity city={this.state.serverCity} /> from <ClientCity city={this.state.clientCity} />!</p>
-        <LocationFetchError server={this.state.serverCityError} client={this.state.clientCityError} />
+        <DataFetchError server={this.state.serverCityError} client={this.state.clientCityError} results={this.state.resultsError} />
         <PingBox serverId={this.state.serverId} clientId={this.state.clientId} />
-        <PlotBox data={this.state.results} />
+        <PlotBox recentResults={this.state.recentResults} myResults={this.state.myResults} />
       </div>
     );
   }
 });
 
-var LocationFetchError = React.createClass({
+var DataFetchError = React.createClass({
   render: function() {
     var message = ""
     if (this.props.server || this.props.client) {
@@ -75,8 +84,11 @@ var LocationFetchError = React.createClass({
     if (this.props.client) {
       message += " - client location: " + this.props.client;
     }
+    if (this.props.results) {
+      message += " - recent results: " + this.props.results;
+    }
     return (
-      <div className="locationFetchErrorBox">{message}</div>
+      <div className="dataFetchError">{message}</div>
     );
   }
 })
@@ -204,24 +216,36 @@ var PingResultError = React.createClass({
 
 var PlotBox = React.createClass({
   render: function() {
-    var ScatterPlot = ReactD3.ScatterPlot;
-    var colorScale = d3.scale.category10();
-    console.log(colorScale);
-    var xAccessor = function(e){return e.distance_km};
-    var yAccessor = function(e){return e.lag_ms};
-    var data = this.props.data;
-    return(
-      <ScatterPlot
-        data={data}
-        width={640}
-        height={400}
-        x={xAccessor}
-        y={yAccessor}
-        colorScale={colorScale}
-        xAxis={{label: "Distance (km)"}}
-        yAxis={{label: "Lag (msec)"}}
-        margin={{top: 20, bottom: 20, left: 40, right: 20}}
-      />
-    );
+    var data = [];
+    if (this.props.recentResults && this.props.recentResults.length > 0) {
+      data.push({label: 1, values: this.props.recentResults});
+    }
+    if (this.props.myResults && this.props.myResults.length > 0) {
+      data.push({label: 2, values: this.props.myResults});
+    }
+    
+    if (data.length > 0) {
+      var ScatterPlot = ReactD3.ScatterPlot;
+      var colorScale = d3.scale.category10();
+      var xAccessor = function(e){return e.distance_km;};
+      var yAccessor = function(e){return e.lag_ms;};
+      return(
+        <div className="plotBox"><ScatterPlot
+          data={data}
+          width={640}
+          height={400}
+          x={xAccessor}
+          y={yAccessor}
+          colorScale={colorScale}
+          xAxis={{label: "Distance (km)"}}
+          yAxis={{label: "Lag (msec)"}}
+          margin={{top: 20, bottom: 20, left: 40, right: 20}}
+        /></div>
+      );
+    } else {
+      return(
+        <div className="plotBox" />
+      );
+    }
   }
 });
