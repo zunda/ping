@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   get 'locations/server', :controller => 'locations', :action => 'server'
   resources :ping_results, :only => [:create, :show]
 
-  if Rails.env.development? or Rails.env.test? or ENV['HEROKU_APP_NAME'] =~ /staging/
+  if Rails.env.development? or Rails.env.test? or ENV['APP_STATUS'] =~ /staging/
     resources :locations
     resources :ping_results
   end

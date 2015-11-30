@@ -11,3 +11,6 @@ $ heroku ps:scale web=1 worker=1
 ```
 
 Schedule task to measure distance for measurements with locations delayed geocode - `rake ping_results:measure_distance`
+
+### Debugging
+Set `APP_STATUS` config var to `staging` for database access through the app.
