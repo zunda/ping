@@ -30,7 +30,20 @@ var MeasurementBox = React.createClass({
       serverCity: "unknown location",
       serverCityError: null,
       clientCity: "unknown location",
-      clientCityError: null
+      clientCityError: null,
+      results: [
+        {
+          label: 1,
+          values:[
+            {distance_km:4995.94242605257, lag_ms:155.0},
+            {distance_km:8556.85379011273, lag_ms:139.0}
+          ]
+        },
+        {
+          label: 2,
+          values:[{distance_km:2500.0, lag_ms:100.0}]
+        },
+      ]
     };
   },
   componentDidMount: function() {
@@ -44,7 +57,7 @@ var MeasurementBox = React.createClass({
         <p>Ping the server at <ServerCity city={this.state.serverCity} /> from <ClientCity city={this.state.clientCity} />!</p>
         <LocationFetchError server={this.state.serverCityError} client={this.state.clientCityError} />
         <PingBox serverId={this.state.serverId} clientId={this.state.clientId} />
-        <PlotBox />
+        <PlotBox data={this.state.results} />
       </div>
     );
   }
@@ -192,22 +205,22 @@ var PingResultError = React.createClass({
 var PlotBox = React.createClass({
   render: function() {
     var ScatterPlot = ReactD3.ScatterPlot;
-    var data = [
-      {
-        label: 'somethingA',
-        values: [{x: 0, y: 2}, {x: 1.3, y: 5}, {x: 3, y: 6}, {x: 3.5, y: 6.5}, {x: 4, y: 6}, {x: 4.5, y: 6}, {x: 5, y: 7}, {x: 5.5, y: 8}]
-      },
-      {
-        label: 'somethingB',
-        values: [{x: 0, y: 3}, {x: 1.3, y: 4}, {x: 3, y: 7}, {x: 3.5, y: 8}, {x: 4, y: 7}, {x: 4.5, y: 7}, {x: 5, y: 7.8}, {x: 5.5, y: 9}]
-      }
-    ];
+    var colorScale = d3.scale.category10();
+    console.log(colorScale);
+    var xAccessor = function(e){return e.distance_km};
+    var yAccessor = function(e){return e.lag_ms};
+    var data = this.props.data;
     return(
       <ScatterPlot
         data={data}
-        width={400}
+        width={640}
         height={400}
-        margin={{top: 10, bottom: 50, left: 50, right: 10}}
+        x={xAccessor}
+        y={yAccessor}
+        colorScale={colorScale}
+        xAxis={{label: "Distance (km)"}}
+        yAxis={{label: "Lag (msec)"}}
+        margin={{top: 20, bottom: 20, left: 40, right: 20}}
       />
     );
   }
