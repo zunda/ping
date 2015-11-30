@@ -4,6 +4,8 @@ A Heroku app to measure latency from client to the server
 
 [![Build Status](https://travis-ci.org/zunda/ping.svg?branch=master)](https://travis-ci.org/zunda/ping)
 
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
+
 ## Usage
 Create an app on Heroku (or somewhere else), provision add-ons:
 
