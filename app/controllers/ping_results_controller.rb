@@ -28,6 +28,7 @@ class PingResultsController < ApplicationController
     @ping_result = PingResult.new(ping_result_params)
     @ping_result.user_agent = user_agent_on_header
     @ping_result.protocol = protocol_on_request
+    @ping_result.distance_km = nil
 
     respond_to do |format|
       if check_and_create
@@ -72,7 +73,7 @@ class PingResultsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def ping_result_params
-      params.require(:ping_result).permit(:lag_ms, :location_id, :server_location_id)
+      params.require(:ping_result).permit(:lag_ms, :user_agent, :location_id, :server_location_id, :protocol, :distance_km)
     end
 
     # Measure the distance and update the @ping_result after validation
