@@ -7,7 +7,20 @@ A Heroku app to measure latency from client to the server
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 
 ## Usage
-Create an app on Heroku (or somewhere else), provision add-ons:
+Deploy and open the top page of the app.
+
+### Via Heroku button
+Click the Deloy to Heroku button above and scale the `worker`:
+
+```
+$ heroku ps:scale worker=1
+```
+
+Schedule task to measure distance for measurements with locations that have
+delayed geocode - `rake ping_results:measure_distance`
+
+### Via CLI
+Alternatively, create an app on Heroku (or somewhere else), provision add-ons:
 
 ```
 $ heroku addons:add heroku-postgres
