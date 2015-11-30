@@ -5,7 +5,10 @@ Rails.application.routes.draw do
   get 'locations/server', :controller => 'locations', :action => 'server'
   resources :ping_results, :only => [:create, :show]
 
-  #resources :locations
+  if Rails.env.development? or Rails.env.test? or ENV['HEROKU_APP_NAME'] =~ /staging/
+    resources :locations
+    resources :ping_results
+  end
   #get 'dashboard/index'
 
   # The priority is based upon order of creation: first created -> highest priority.

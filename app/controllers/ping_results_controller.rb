@@ -16,7 +16,6 @@ class PingResultsController < ApplicationController
   # GET /ping_results/new
   def new
     @ping_result = PingResult.new
-    @ping_result.protocol = protocol_on_request
   end
 
   # GET /ping_results/1/edit
@@ -30,13 +29,8 @@ class PingResultsController < ApplicationController
     @ping_result.user_agent = user_agent_on_header
     @ping_result.protocol = protocol_on_request
 
-    client = Location.where(host: src_addr_on_header).order(updated_at: :desc).first
-    server = Location.where(host: host_on_header).order(updated_at: :desc).first
-
     respond_to do |format|
-       if (client && client.id) == @ping_result.location_id and
-           (server && server.id) == @ping_result.server_location_id and
-          @ping_result.save
+      if check_and_create
         format.html { redirect_to @ping_result, notice: 'Ping result was successfully created.' }
         format.json { render :show, status: :created, location: @ping_result }
       else
@@ -79,5 +73,15 @@ class PingResultsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def ping_result_params
       params.require(:ping_result).permit(:lag_ms, :location_id, :server_location_id)
+    end
+
+    # Measure the distance and update the @ping_result after validation
+    def check_and_create
+      client = Location.where(host: src_addr_on_header).order(updated_at: :desc).first
+      return false if not client or client.id != @ping_result.location_id
+      server = Location.where(host: host_on_header).order(updated_at: :desc).first
+      return false if not server or server.id != @ping_result.server_location_id
+      @ping_result.measure_distance!
+      return @ping_result.save
     end
 end

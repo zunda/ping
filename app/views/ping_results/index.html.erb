@@ -11,6 +11,7 @@
       <th>Location id</th>
       <th>Server location id</th>
       <th>Protocol</th>
+      <th>Distance km</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -24,6 +25,7 @@
         <td><%= ping_result.location_id %></td>
         <td><%= ping_result.server_location_id %></td>
         <td><%= ping_result.protocol %></td>
+        <td><%= ping_result.distance_km %></td>
         <td><%= link_to 'Show', ping_result %></td>
         <td><%= link_to 'Edit', edit_ping_result_path(ping_result) %></td>
         <td><%= link_to 'Destroy', ping_result, method: :delete, data: { confirm: 'Are you sure?' } %></td>

@@ -17,17 +17,34 @@
 
 <p>
   <strong>Location id:</strong>
-  <%= link_to @ping_result.location_id, @ping_result.location %>
+  <%=
+    if @ping_result.location_id
+      link_to @ping_result.location_id, @ping_result.location
+    else
+      nil
+    end
+  %>
 </p>
 
 <p>
   <strong>Server location id:</strong>
-  <%= link_to @ping_result.server_location_id, Location.find(@ping_result.server_location_id) %>
+  <%=
+    if @ping_result.server_location_id
+      link_to @ping_result.server_location_id, Location.find(@ping_result.server_location_id)
+    else
+      nil
+    end
+   %>
 </p>
 
 <p>
   <strong>Protocol:</strong>
   <%= @ping_result.protocol %>
+</p>
+
+<p>
+  <strong>Distance km:</strong>
+  <%= @ping_result.distance_km %>
 </p>
 
 <%= link_to 'Edit', edit_ping_result_path(@ping_result) %> |
