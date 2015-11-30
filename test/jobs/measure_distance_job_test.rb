@@ -12,7 +12,7 @@ class MeasureDistanceJobTest < ActiveJob::TestCase
   end
 
   test "distance is measured" do
-    @job.perform_later([@ping_result.id])
+    @job.perform(@ping_result.id)
     @ping_result.reload
     assert_in_delta 10000, @ping_result.distance_km, 10, "Recorded distance between equator and north pole is not about 10000 km"
   end
