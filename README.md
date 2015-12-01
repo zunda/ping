@@ -4,15 +4,17 @@ A Heroku app to measure latency from client to the server
 
 [![Build Status](https://travis-ci.org/zunda/ping.svg?branch=master)](https://travis-ci.org/zunda/ping)
 
-[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
-
 ## Usage
 Deploy and open the top page of the app.
 
 ### Via Heroku button
-Click the Deloy to Heroku button above and scale the `worker`:
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
+
+Click the Deloy to Heroku button, then migrate the database,
+and scale the `worker`:
 
 ```
+$ heroku run rake db:migrate
 $ heroku ps:scale worker=1
 ```
 
@@ -20,17 +22,21 @@ Schedule task to measure distance for measurements with locations that have
 delayed geocode - `rake ping_results:measure_distance`
 
 ### Via CLI
-Alternatively, create an app on Heroku (or somewhere else), provision add-ons:
+Alternatively, create an app on Heroku (or somewhere else), push,
+and provision add-ons:
 
 ```
-$ heroku addons:add heroku-postgres
-$ heroku addons:add heroku-redis
-$ heroku addons:add scheduler
+$ heroku create <app-name>
+$ heroku addons:create heroku-postgresql
+$ heroku addons:create heroku-redis
+$ heroku addons:create scheduler
+$ git push heroku master
 ```
 
-Deploy, and scale - one or more `web` and `worker` are needed:
+Migrate the database, and scale - one or more `web` and `worker` are needed:
 
 ```
+$ heroku run rake db:migrate
 $ heroku ps:scale web=1 worker=1
 ```
 
@@ -58,3 +64,4 @@ A `tcpudmp` shows something like below for each ping.
 ## Samples
 - http://ping-us.herokuapp.com/
 - http://ping-eu.herokuapp.com/
+- http://ping-tokyo.herokuapp.com/
