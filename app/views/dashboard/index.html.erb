@@ -8,12 +8,23 @@
       function(lag){$("#ping_result_lag_ms").val(lag);}
     )});
 <% end %>
+<%
+  other_hosts = apps_hosts
+  if other_hosts.empty?
+    other_hosts_p = ""
+  else
+    other_hosts_p = "<p>Please also visit #{other_hosts.map{|host|
+      link_to(host, request.protocol + host)
+    }.join(", ")}.</p>"
+  end
+%>
 
 <h1>Ping Cloud!</h1>
 
 <%= react_component('MeasurementBox') %>
 
 <footer>
+<%=other_hosts_p.html_safe %>
 <p>
 A ping measures a round trip time of packets for a HEAD request to this server.
 Your IP address and user agent are recorded and maybe used statistically.
