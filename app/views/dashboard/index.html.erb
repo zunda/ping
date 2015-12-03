@@ -13,9 +13,9 @@
   if other_hosts.empty?
     other_hosts_p = ""
   else
-    other_hosts_p = "<p>Please also visit #{other_hosts.map{|host|
+    other_hosts_p = "<p>Please also visit - #{other_hosts.map{|host|
       link_to(host, request.protocol + host)
-    }.join(", ")}.</p>"
+    }.join(" ")}.</p>"
   end
 %>
 
