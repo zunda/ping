@@ -19,7 +19,9 @@ $ heroku ps:scale worker=1
 ```
 
 Schedule task to measure distance for measurements with locations that have
-delayed geocode - `rake ping_results:measure_distance`
+delayed geocode - `rake ping_results:measure_distance`.
+
+To force Geocode the locations, run `rake locations:geocode`.
 
 ### Via CLI
 Alternatively, create an app on Heroku (or somewhere else), push,
