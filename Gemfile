@@ -41,6 +41,8 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-react-d3-components'
 end
 
+gem 'net-ping'
+
 group :development, :test do
   # Use sqlite3 as the database for Active Record
   gem 'sqlite3'
