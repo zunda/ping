@@ -52,4 +52,12 @@ class PingResultTest < ActiveSupport::TestCase
     assert ping_result.save, "Did not save distance"
     assert_in_delta 10000, ping_result.distance_km, 10, "Recorded distance between equator and north pole is not about 10000 km"
   end
+
+  test "does not calculate distance without location" do
+    ping_result = PingResult.new
+    # Locations defined in test/fixtures/locations.yml
+    ping_result.location_id = locations(:nowhere).id
+    ping_result.server_location_id = locations(:somewhere).id
+    assert_nil ping_result.distance, "Distance is calculated for nowhere"
+  end
 end

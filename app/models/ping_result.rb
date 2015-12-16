@@ -9,8 +9,9 @@ class PingResult < ActiveRecord::Base
 
   def distance
     c = Location.find(location_id)
+    return nil unless c and c.geocoded?
     s = Location.find(server_location_id)
-    return nil if not c or not s
+    return nil unless s and s.geocoded?
     return Geocoder::Calculations.distance_between(
       [c.longitude, c.latitude],
       [s.longitude, s.latitude],
