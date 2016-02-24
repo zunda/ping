@@ -4,7 +4,7 @@ module ApplicationHelper
     IPAddr::RE_IPV6ADDRLIKE_COMPRESSED)
 
   def apps_hosts
-    hosts = %w(us eu tokyo).map{|region| "ping-#{region}.herokuapp.com"}
+    hosts = %w(us eu).map{|region| "ping-#{region}.herokuapp.com"}
     if request and not request.host.blank?
       hosts.reject!{|host| host == request.host}
     end
