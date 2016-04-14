@@ -56,7 +56,7 @@ class GeocoderStub
     ),
     '127.0.0.1' => Result.new(  # an example host with "invalid" IP address
       true,
-      {"message"=>"Input string is not a valid IP address", "code"=>401},
+      {"ip"=>"127.0.0.1", "city"=>"", "region_code"=>"", "region_name"=>"", "metrocode"=>"", "zipcode"=>"", "latitude"=>"0", "longitude"=>"0", "country_name"=>"Reserved", "country_code"=>"RD"},
     ),
     'www.google.com' => Result.new(
       :ip_address => true,
