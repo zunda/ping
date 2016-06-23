@@ -14,7 +14,7 @@
     other_hosts_p = ""
   else
     other_hosts_p = "<p>Please also visit - #{other_hosts.map{|host|
-      link_to(host, request.protocol + host)
+      link_to(host, 'http://' + host)
     }.join(" ")}.</p>"
   end
 %>
