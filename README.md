@@ -67,3 +67,9 @@ A `tcpudmp` shows something like below for each ping.
 - http://ping-us.herokuapp.com/
 - http://ping-eu.herokuapp.com/
 - http://ping-tokyo.herokuapp.com/
+
+## Verification with loader.io
+```
+heroku config:set LOADERIO_VERIFICATION_TOKEN=loaderio-0123456789abcdef
+heroku config:set LOADERIO_VERIFICATION_FILENAME=loaderio-0123456789abcdef
+```
