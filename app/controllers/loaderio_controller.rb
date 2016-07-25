@@ -10,6 +10,6 @@ class LoaderioController < ActionController::Base
   private
 
   def token
-    "loaderio-#{ENV['LOADERIO_VERIFICATION_TOKEN']}"
+    ENV['LOADERIO_VERIFICATION_TOKEN']
   end
 end  
