@@ -56,7 +56,7 @@ end
 
 group :production do
   gem 'pg'
-	gem 'newrelic_rpm'
+  gem 'newrelic_rpm'
 end
 
 gem 'rails_12factor', :group => [:development, :production]
