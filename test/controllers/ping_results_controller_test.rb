@@ -96,7 +96,6 @@ class PingResultsControllerTest < ActionController::TestCase
     end
   end
 
-
   test "should show ping_result" do
     get :show, id: @ping_result
     assert_response :success
