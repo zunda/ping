@@ -74,3 +74,15 @@ somewhere:
   latitude: 0.0
   longitude: 42.0
   city: somewhere
+
+shared_one:
+  id: 421
+  host: app1.example.com
+  latitude: 0.0
+  longitude: 42.0
+
+shared_two:
+  id: 422
+  host: app2.example.com
+  latitude: 42.0
+  longitude: 0.0
