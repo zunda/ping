@@ -2,16 +2,33 @@
 
 one:
   lag_ms: 1.5
+  distance_km: 1.5
   location_id: 1
   server_location_id: 2
 
 two:
   lag_ms: 2.5
+  distance_km: 2.5
   location_id: 1
   server_location_id: 2
 
 location_test:
   lag_ms: 123.4
+  distance_km: 123.4
   user_agent: 'Rails Testing'
   location_id: 1
   server_location_id: 2
+
+shared_test_one:
+  lag_ms: 42.0
+  distance_km: 142
+  location_id: 1
+  server_location_id: 421
+  updated_at: 2016-08-17 17:19
+
+shared_test_two:
+  lag_ms: 24.0
+  distance_km: 124
+  location_id: 1
+  server_location_id: 422
+  updated_at: 2016-08-17 17:20

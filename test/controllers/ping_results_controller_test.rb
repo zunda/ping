@@ -14,6 +14,15 @@ class PingResultsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:ping_results)
   end
 
+  test "should get only for the current host" do
+    expected = ping_results(:shared_test_one)
+    @request.headers['HTTP_HOST'] = Location.find(expected.server_location_id).host
+    get :recent, :format => 'json'
+    assert_response :success
+    actual = JSON.parse(@response.body)
+    assert_equal 1, actual.length
+  end
+
   test "should get new" do
     get :new
     assert_response :success
@@ -95,7 +104,6 @@ class PingResultsControllerTest < ActionController::TestCase
       }
     end
   end
-
 
   test "should show ping_result" do
     get :show, id: @ping_result

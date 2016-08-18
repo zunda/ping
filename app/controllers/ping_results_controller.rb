@@ -4,7 +4,8 @@ class PingResultsController < ApplicationController
 
   # GET /ping_results/recent
   def recent
-    @ping_results = PingResult.where.not(distance_km: nil).order(updated_at: :desc).limit(100)
+    server = Location.where(host: host_on_header).order(updated_at: :desc).first
+    @ping_results = PingResult.where(server_location_id: server.id).where.not(distance_km: nil).order(updated_at: :desc).limit(100)
   end
 
   # GET /ping_results
