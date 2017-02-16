@@ -18,10 +18,11 @@ $ heroku run rake db:migrate
 $ heroku ps:scale worker=1
 ```
 
-Schedule task to measure distance for measurements with locations that have
-delayed geocode - `rake ping_results:measure_distance`.
+Schedule a task, say hourly, on Heroku Scheduler to sweep database for delayed execution of geocoding locations and measuring distances
 
-To force Geocode the locations, run `rake locations:geocode`.
+```
+rake locations:geocode ping_results:measure_distance
+```
 
 ### Via CLI
 Alternatively, create an app on Heroku (or somewhere else), push,
@@ -42,8 +43,11 @@ $ heroku run rake db:migrate
 $ heroku ps:scale web=1 worker=1
 ```
 
-Schedule task to measure distance for measurements with locations that have
-delayed geocode - `rake ping_results:measure_distance`
+Schedule a task, say hourly, on Heroku Scheduler to sweep database for delayed execution of geocoding locations and measuring distances
+
+```
+rake locations:geocode ping_results:measure_distance
+```
 
 ### Debugging
 Set `APP_STATUS` config var to `staging` for database access through the app.
@@ -68,7 +72,8 @@ A `tcpudmp` shows something like below for each ping.
 - http://ping-eu.herokuapp.com/
 - http://ping-tokyo.herokuapp.com/
 
-## Verification with loader.io
+## Other settings
+### Verification with loader.io
 ```
 heroku config:set LOADERIO_VERIFICATION_TOKEN=loaderio-0123456789abcdef
 heroku config:set LOADERIO_VERIFICATION_FILENAME=loaderio-0123456789abcdef
