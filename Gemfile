@@ -43,7 +43,7 @@ end
 
 gem 'net-ping'
 
-group :development, :test do
+group :development do
   # Use sqlite3 as the database for Active Record
   gem 'sqlite3'
 
@@ -54,7 +54,7 @@ group :development, :test do
   gem 'spring'
 end
 
-group :production do
+group :production, :test do
   gem 'pg'
   gem 'newrelic_rpm'
 end
