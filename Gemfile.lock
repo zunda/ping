@@ -158,6 +158,7 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
+    scout_apm (2.3.1)
     sdoc (0.4.2)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
@@ -210,11 +211,15 @@ DEPENDENCIES
   resque (~> 1.22.0)
   resque-scheduler
   sass-rails (~> 5.0)
+  scout_apm
   sdoc (~> 0.4.0)
   spring
   sqlite3
   turbolinks
   uglifier (>= 1.3.0)
+
+RUBY VERSION
+   ruby 2.4.1p111
 
 BUNDLED WITH
    1.15.4

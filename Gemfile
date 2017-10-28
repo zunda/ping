@@ -63,3 +63,4 @@ end
 gem 'rails_12factor', :group => [:development, :production]
 
 gem 'barnes'
+gem 'scout_apm'
