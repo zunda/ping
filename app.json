@@ -16,7 +16,7 @@
     "heroku-postgresql",
     "heroku-redis",
     "scheduler"
-  ]
+  ],
   "environments": {
     "test": {
       "env":{
