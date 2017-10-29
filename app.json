@@ -17,4 +17,16 @@
     "heroku-redis",
     "scheduler"
   ]
+  "environments": {
+    "test": {
+      "env":{
+        "RACK_ENV":"test",
+        "RAILS_ENV":"test",
+        "RAILS_SERVE_STATIC_FILES":"enabled",
+        "SECRET_KEY_BASE":{
+          "generator":"secret"
+        }
+      }
+    }
+  }
 }
