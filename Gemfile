@@ -63,4 +63,3 @@ end
 gem 'rails_12factor', :group => [:development, :production]
 
 gem 'scout_apm'
-gem 'newrelic'
