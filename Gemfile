@@ -57,7 +57,6 @@ end
 
 group :production, :test do
   gem 'pg'
-  gem 'newrelic_rpm'
 end
 
 gem 'rails_12factor', :group => [:development, :production]

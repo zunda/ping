@@ -81,7 +81,6 @@ GEM
     minitest (5.10.3)
     multi_json (1.12.2)
     net-ping (2.0.2)
-    newrelic_rpm (4.5.0.337)
     nokogiri (1.8.1)
       mini_portile2 (~> 2.3.0)
     pg (0.21.0)
@@ -200,7 +199,6 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   net-ping
-  newrelic_rpm
   pg
   puma
   rails (>= 4, < 5)
