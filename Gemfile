@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '>= 2.3.0', '< 2.5.0'
+ruby '>= 2.3.0', '< 2.6.0'
 
 gem 'puma'
 
@@ -56,7 +56,7 @@ group :development do
 end
 
 group :production, :test do
-  gem 'pg'
+  gem 'pg', '~> 0.20'
   gem 'newrelic_rpm'
 end
 
