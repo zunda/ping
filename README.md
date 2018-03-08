@@ -57,7 +57,7 @@ This program measures time needed to receive response for a `HEAD` request
 to one of its static assets.
 See the [Javascript code](app/assets/javascripts/ping.js) for details.
 
-The time measured shuold be for  a round trip of packets between
+The time measured should be for  a round trip of packets between
 the client and the server.
 A `tcpudmp` shows something like below for each ping.
 
