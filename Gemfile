@@ -56,7 +56,7 @@ group :development do
 end
 
 group :production, :test do
-  gem 'pg'
+  gem 'pg', '~> 0.20'
   gem 'newrelic_rpm'
 end
 
