@@ -42,7 +42,14 @@ Rails.application.configure do
   # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for NGINX
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  # config.force_ssl = true
+  config.force_ssl = true
+  config.ssl_options = {
+    redirect: {
+      exclude: -> request {
+        request.host =~ /\.herokuapp\.com\Z/
+      }
+    }
+  }
 
   # Use the lowest log level to ensure availability of diagnostic information
   # when problems arise.
