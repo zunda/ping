@@ -45,9 +45,9 @@ var MeasurementBox = React.createClass({
 
   getInitialState: function() {
     return {
-      serverCity: "unknown location",
+      serverCity: "(looking up)",
       serverCityError: null,
-      clientCity: "unknown location",
+      clientCity: "(looking up)",
       clientCityError: null,
       recentResults: [],
       myResults: [],
@@ -103,18 +103,18 @@ var DataFetchError = React.createClass({
 
 var ClientCity = React.createClass({
   render: function() {
-    var city = this.props.city;
+    var city = this.props.city || "(looking up)";
     return (
-      <span className="clientCity"><tt>{city}</tt></span>
+      <span className="clientCity">{city}</span>
     );
   }
 });
 
 var ServerCity = React.createClass({
   render: function() {
-    var city = this.props.city;
+    var city = this.props.city || "(looking up)";
     return (
-      <span className="serverCity"><tt>{city}</tt></span>
+      <span className="serverCity">{city}</span>
     );
   }
 });
