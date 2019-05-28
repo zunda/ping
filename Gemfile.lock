@@ -78,7 +78,6 @@ GEM
     minitest (5.11.3)
     multi_json (1.13.1)
     net-ping (2.0.5)
-    newrelic_rpm (6.3.0.355)
     nokogiri (1.10.3)
       mini_portile2 (~> 2.4.0)
     pg (0.21.0)
@@ -156,7 +155,6 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
-    scout_apm (2.4.24)
     sdoc (0.4.2)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
@@ -197,7 +195,6 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   net-ping
-  newrelic_rpm
   pg (~> 0.20)
   puma
   rails (>= 4, < 5)
@@ -207,7 +204,6 @@ DEPENDENCIES
   resque (~> 1.22.0)
   resque-scheduler
   sass-rails (~> 5.0)
-  scout_apm
   sdoc (~> 0.4.0)
   spring
   sqlite3 (~> 1.3.6)
