@@ -2,20 +2,21 @@ source 'https://rubygems.org'
 ruby '>= 2.3.0', '< 2.6.0'
 
 gem 'puma'
-
-gem 'rails', '>= 4', '< 5'
-gem 'sass-rails', '~> 5.0'
-gem 'uglifier', '>= 1.3.0'
-gem 'coffee-rails', '~> 4.1.0'
+gem 'rails', '~> 5.2.4.3'
+gem 'sass-rails'
+gem 'uglifier'
 gem 'jquery-rails'
 gem 'turbolinks'
-gem 'jbuilder', '~> 2.0'
+gem 'jbuilder'
+gem 'coffee-rails'
+
+gem 'pg'
 
 gem 'resque', "~> 1.22.0"
 gem 'resque-scheduler'
 gem 'geocoder'
 
-gem 'react-rails', '~> 1.0'
+gem 'react-rails'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-react-d3-components'
@@ -23,14 +24,11 @@ end
 
 gem 'net-ping'
 
+group :test do
+  gem 'rails-controller-testing'
+end
+
 group :development do
-  gem 'sqlite3', '~> 1.3.6'
   gem 'byebug'
   gem 'spring'
 end
-
-group :production, :test do
-  gem 'pg', '~> 0.20'
-end
-
-gem 'rails_12factor', :group => [:development, :production]

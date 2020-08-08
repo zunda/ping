@@ -35,19 +35,27 @@ class LocationsControllerTest < ActionController::TestCase
   end
 
   test "should show location" do
-    get :show, id: @location
+    get :show, params: { id: @location }
     assert_response :success
   end
 
   test "should get edit" do
-    get :edit, id: @location
+    get :edit, params: { id: @location }
     assert_response :success
   end
 
   test "should update location" do
     city_new = @location.city + "X"
     @request.headers['X-Forwarded-For'] = @location.host
-    patch :update, id: @location, location: { city: city_new, host: @location.host, latitude: @location.latitude, longitude: @location.longitude }
+    patch :update, params: {
+      id: @location,
+      location: {
+        city: city_new,
+        host: @location.host,
+        latitude: @location.latitude,
+        longitude: @location.longitude
+      }
+    }
     assert_redirected_to location_path(assigns(:location))
     @location.reload
     assert_equal city_new, @location.city
@@ -55,7 +63,7 @@ class LocationsControllerTest < ActionController::TestCase
 
   test "should destroy location" do
     assert_difference('Location.count', -1) do
-      delete :destroy, id: @location
+      delete :destroy, params: { id: @location }
     end
 
     assert_redirected_to locations_path
