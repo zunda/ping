@@ -1,4 +1,4 @@
-class CreatePingResults < ActiveRecord::Migration
+class CreatePingResults < ActiveRecord::Migration[4.2]
   def change
     create_table :ping_results do |t|
       t.float :lag_ms
