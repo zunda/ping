@@ -74,6 +74,7 @@ var MeasurementBox = React.createClass({
           clientId={this.state.clientId}
           recentResults={this.state.recentResults}
           myResults={this.state.myResults}
+          target={this.props.target}
         />
       </div>
     );
@@ -149,7 +150,7 @@ var PingBox = React.createClass({
         progressValue: ping_progress
       });
       Pinger.measure.call(this,
-        "<%= path_to_javascript 'ping' %>",
+        this.props.target,
         function(lag){
           ping_progress = ping_progress + " " + lag;
           this.setState({progressValue: ping_progress});

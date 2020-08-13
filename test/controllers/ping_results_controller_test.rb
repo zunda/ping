@@ -35,12 +35,12 @@ class PingResultsControllerTest < ActionController::TestCase
     @request.headers['REMOTE_ADDR'] = ipaddr
 
     assert_difference('PingResult.count') do
-      post :create, ping_result: {
+      post :create, params: { ping_result: {
         lag_ms: @ping_result.lag_ms,
         user_agent: @ping_result.user_agent,
         location_id: @ping_result.location_id,
         server_location_id: @ping_result.server_location_id
-      }
+      } }
     end
 
     assert_redirected_to ping_result_path(assigns(:ping_result))
@@ -50,11 +50,11 @@ class PingResultsControllerTest < ActionController::TestCase
   test "should belong to a location" do
     ping_result = ping_results(:location_test)
     assert_difference('PingResult.count') do
-      post :create, ping_result: {
+      post :create, params: { ping_result: {
         lag_ms: ping_result.lag_ms,
         location_id: ping_result.location_id,
         server_location_id: ping_result.server_location_id
-      }
+      } }
     end
     assert PingResult.last.location
     assert_equal PingResult.last,  PingResult.last.location.ping_results.last
@@ -64,11 +64,11 @@ class PingResultsControllerTest < ActionController::TestCase
     ping_result = ping_results(:location_test)
     @request.headers['HTTP_HOST'] = Location.find(42).host
     assert_difference('PingResult.count') do
-      post :create, ping_result: {
+      post :create, params: { ping_result: {
         lag_ms: ping_result.lag_ms,
         location_id: ping_result.location_id,
         server_location_id: 42
-      }
+      } }
     end
     assert_equal 42, PingResult.last.server_location_id
   end
@@ -76,53 +76,55 @@ class PingResultsControllerTest < ActionController::TestCase
   test "should record the procotol" do
     assert @request.protocol, "protocol is not set"
     assert_difference('PingResult.count') do
-      post :create, ping_result: {
+      post :create, params: { ping_result: {
         lag_ms: @ping_result.lag_ms,
         location_id: @ping_result.location_id,
         server_location_id: @ping_result.server_location_id
-      }
+      } }
     end
     assert_equal @request.protocol, PingResult.last.protocol
   end
 
   test "should reject if client's IP address does not match" do
     assert_no_difference('PingResult.count') do
-      post :create, ping_result: {
+      post :create, params: { ping_result: {
         lag_ms: @ping_result.lag_ms,
         location_id: @ping_result.location_id + 1,
         server_location_id: @ping_result.server_location_id
-      }
+      } }
     end
   end
 
   test "should reject if server's FQDN does not match" do
     assert_no_difference('PingResult.count') do
-      post :create, ping_result: {
+      post :create, params: { ping_result: {
         lag_ms: @ping_result.lag_ms,
         location_id: @ping_result.location_id,
         server_location_id: @ping_result.server_location_id + 1
-      }
+      } }
     end
   end
 
   test "should show ping_result" do
-    get :show, id: @ping_result
+    get :show, params: { id: @ping_result }
     assert_response :success
   end
 
   test "should get edit" do
-    get :edit, id: @ping_result
+    get :edit, params: { id: @ping_result }
     assert_response :success
   end
 
   test "should update ping_result" do
-    patch :update, id: @ping_result, ping_result: { lag_ms: @ping_result.lag_ms }
+    patch :update, params: {
+      id: @ping_result, ping_result: { lag_ms: @ping_result.lag_ms }
+    }
     assert_redirected_to ping_result_path(assigns(:ping_result))
   end
 
   test "should destroy ping_result" do
     assert_difference('PingResult.count', -1) do
-      delete :destroy, id: @ping_result
+      delete :destroy, params: { id: @ping_result }
     end
 
     assert_redirected_to ping_results_path
