@@ -1,9 +1,12 @@
 <%= javascript_include_tag "ping" %>
+<%
+  target_url = path_to_javascript "ping"
+%>
 <%= javascript_tag do %>
   $("#ping").click(function() {
     $("#ping_result_lag_ms").val("");
     $("#ping_result_ping_progress").html("");
-    Pinger.measure("<%= path_to_javascript "ping" %>",
+    Pinger.measure(target_url,
       function(lag){$("#ping_result_ping_progress").append(" " + lag);},
       function(lag){$("#ping_result_lag_ms").val(lag);}
     )});
@@ -21,7 +24,7 @@
 
 <h1>Ping Cloud!</h1>
 
-<%= react_component('MeasurementBox') %>
+<%= react_component('MeasurementBox', {target: target_url}) %>
 
 <footer>
 <%=other_hosts_p.html_safe %>
