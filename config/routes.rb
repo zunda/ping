@@ -12,10 +12,6 @@ Rails.application.routes.draw do
   end
   #get 'dashboard/index'
 
-  if ENV['LOADERIO_VERIFICATION_TOKEN'] and ENV['LOADERIO_VERIFICATION_FILENAME']
-    get 'loaderio-:id' => 'loaderio#verify'
-  end
-
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
