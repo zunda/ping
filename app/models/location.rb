@@ -62,7 +62,9 @@ class Location < ActiveRecord::Base
   private
   def obtain_geocode_result(result)
     if result
-      if not result.address.blank?
+      if result.data['country'] == 'US'
+        self.city = "#{result.data['city']}, #{result.data['region']}, #{result.data['country']}".sub(/^[ ,]*/, "")
+      elsif not result.address.blank?
         self.city = result.address
       elsif not result.city.blank?
         self.city = result.city
