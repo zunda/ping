@@ -1,9 +1,6 @@
 {
   "name":"ping",
   "description":"A Heroku app to measure latency from client to the server",
-  "scripts":{
-    "postdeploy":"bundle exec rake db:migrate"
-  },
   "env":{
     "RACK_ENV":"production",
     "RAILS_ENV":"production",
@@ -14,9 +11,6 @@
   },
   "formation": {
     "web": {
-      "quantity": 1
-    },
-    "worker": {
       "quantity": 1
     }
   },
